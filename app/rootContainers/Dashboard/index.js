@@ -6,7 +6,7 @@ import {
   Menu,
   Icon
 } from 'semantic-ui-react'
-import { Switch } from 'react-router-dom'
+import { Switch, Redirect } from 'react-router-dom'
 
 import Context from './context'
 import RouteWithSubroutes from 'Components/RouteWithSubRoutes'
@@ -42,7 +42,7 @@ const NavButton = ({ icon, label, to }) => {
 }
 
 const DashboardRoot = ({ routes, match, history }) => {
-  const { isExact } = match
+  const { isExact, path } = match
   return (
     <Context.Provider value={{ history }}>
       <Grid
@@ -51,15 +51,24 @@ const DashboardRoot = ({ routes, match, history }) => {
         verticalAlign='middle'
       >
         <Menu fixed='top' inverted>
-          <Menu.Item as='a' header>
-          PuSA
+          <Menu.Item
+            as='a'
+            header
+            onClick={() => history.push('/dashboard')}
+          >
+            PuSA
           </Menu.Item>
-          <Menu.Item>Organization</Menu.Item>
+          <Menu.Item
+            as='a'
+            onClick={() => history.push('/organizations')}
+          >
+            Organization
+          </Menu.Item>
           <Menu.Item>Users</Menu.Item>
         </Menu>
         <Grid.Column stretched style={{ width: '100vw' }}>
           {
-            isExact &&
+            isExact && path === '/dashboard' &&
               <Grid container textAlign='center' columns='equal'>
                 <Grid.Column>
                   <NavButton
@@ -76,6 +85,12 @@ const DashboardRoot = ({ routes, match, history }) => {
                   />
                 </Grid.Column>
               </Grid>
+          }
+          {
+            isExact && path === '/organizations' &&
+              <Redirect
+                to='/organizations/list'
+              />
           }
           {
             !isExact &&
