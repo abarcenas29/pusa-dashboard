@@ -4,6 +4,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoPrefixer = require('autoprefixer')
+const cssnano = require('cssnano')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = (env, options) => {
@@ -19,7 +20,7 @@ module.exports = (env, options) => {
     ),
     target: 'web',
     output: {
-      path: path.join(__dirname, '..', process.env.WEBPACK_BUILD_PATH),
+      path: path.resolve(__dirname, '..', process.env.WEBPACK_BUILD_PATH),
       filename: '[name].bundle.js',
       chunkFilename: 'bundle.[chunkhash].js',
       publicPath: '/'
@@ -59,17 +60,28 @@ module.exports = (env, options) => {
           }
         },
         {
-          test: /\.scss$/,
+          test: /\.(sa|sc|c)ss$/,
           use: [
-            { loader: isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader },
-            { loader: 'css-loader' },
+            isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                importLoaders: 1
+              }
+            },
             {
               loader: 'postcss-loader',
               options: {
-                plugins: () => [autoPrefixer]
+                plugins: () => [
+                  autoPrefixer,
+                  cssnano({
+                    preset: 'default'
+                  })
+                ]
               }
             },
-            { loader: 'sass-loader' }
+            'sass-loader'
           ]
         },
         {

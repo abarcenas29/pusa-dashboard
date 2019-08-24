@@ -1,4 +1,4 @@
-import './styles/global.scss'
+import 'semantic-ui-css/semantic.min.css'
 
 import React, { Suspense } from 'react'
 import { hot } from 'react-hot-loader'
