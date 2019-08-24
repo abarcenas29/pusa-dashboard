@@ -1,0 +1,141 @@
+{
+  "name": "react-sandbox-v2",
+  "version": "0.0.1",
+  "description": "Updated version of the React-Sandbox with updated packages and methods",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "git:submodules": "git submodule update --init --recursive",
+    "build:prod": "rimraf ./build/* && cross-env NODE_ENV=production && webpack --config internals/webpack.config.js --mode production --progress",
+    "postinstall": "rimraf node_modules/jest-runtime/node_modules/babel-core node_modules/jest-config/node_modules/babel-core && yarn run git:submodules",
+    "start:dev": "cross-env NODE_ENV=development && rimraf ./build/* && webpack-dev-server --config internals/webpack.config.js --mode development --open --hot",
+    "test": "cross-env NODE_ENV=test && jest --colors"
+  },
+  "dependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-final-form": "*",
+    "react-helmet": "*",
+    "react-intl": "*",
+    "react-redux": "*",
+    "react-redux-toastr": "*",
+    "redux": "*",
+    "redux-observable": "*",
+    "redux-actions": "*",
+    "rxjs": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/plugin-proposal-class-properties": "*",
+    "@babel/plugin-proposal-object-rest-spread": "*",
+    "@babel/plugin-syntax-dynamic-import": "*",
+    "@babel/plugin-transform-modules-commonjs": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-flow": "*",
+    "@babel/preset-react": "*",
+    "autoprefixer": "*",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "*",
+    "babel-loader": "*",
+    "babel-preset-env": "*",
+    "babel-preset-react": "*",
+    "cross-env": "*",
+    "css-loader": "*",
+    "dotenv": "*",
+    "eslint": "*",
+    "eslint-config-standard": "*",
+    "eslint-config-standard-react": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-node": "*",
+    "eslint-plugin-promise": "*",
+    "eslint-plugin-react": "*",
+    "eslint-plugin-standard": "*",
+    "file-loader": "*",
+    "html-webpack-plugin": "*",
+    "jest": "*",
+    "mini-css-extract-plugin": "*",
+    "node-sass": "*",
+    "postcss-loader": "*",
+    "prettier": "*",
+    "react-hot-loader": "*",
+    "react-loadable": "*",
+    "react-router-dom": "*",
+    "rimraf": "*",
+    "sass-loader": "*",
+    "style-loader": "*",
+    "styled-components": "*",
+    "webpack": "*",
+    "webpack-cli": "*",
+    "webpack-dev-server": "*"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-syntax-dynamic-import"
+    ],
+    "env": {
+      "development": {
+        "plugins": [
+          "react-hot-loader/babel"
+        ]
+      },
+      "production": {
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "modules": false
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "standard",
+      "standard-react"
+    ],
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "react/prop-types": 0,
+      "camelcase": [
+        1,
+        {
+          "ignoreDestructuring": true
+        }
+      ]
+    }
+  },
+  "sideEffects": false,
+  "jest": {
+    "verbose": true,
+    "moduleNameMapper": {
+      "Components(.*)$": "<rootDir>/app/components$1",
+      "Containers(.*)$": "<rootDir>/app/containers$1",
+      "Helpers(.*)$": "<rootDir>/app/helpers$1",
+      "Modules(.*)$": "<rootDir>/app/modules$1",
+      "Styles(.*)$": "<rootDir>/app/styles$1",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQute": true,
+    "trailingComma": "none"
+  },
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
+  }
+}
