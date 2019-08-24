@@ -1,5 +1,7 @@
 import { lazy } from 'react'
 
+import OrgRoutes from 'Routes/organization'
+
 const LoadLogin = lazy(() => import('Containers/Login' /* webpackChunkName: "Container-Home" */))
 
 const LoadAbout = lazy(() => import('Containers/About' /* webpackChunkName: "Container-About" */))
@@ -19,6 +21,13 @@ const routes = [
   {
     path: '/dashboard',
     component: LoadDashboard
+  },
+  {
+    path: '/organizations',
+    component: LoadDashboard,
+    routes: [
+      ...OrgRoutes
+    ]
   }
 ]
 

@@ -29,10 +29,12 @@ module.exports = (env, options) => {
     resolve: {
       alias: {
         'react-dom': '@hot-loader/react-dom',
+        App: path.resolve(__dirname, '..', srcFolder),
         Components: path.resolve(__dirname, '..', srcFolder, 'components'),
         Containers: path.resolve(__dirname, '..', srcFolder, 'containers'),
+        Helpers: path.resolve(__dirname, '..', srcFolder, 'helpers'),
         RootContainers: path.resolve(__dirname, '..', srcFolder, 'rootContainers'),
-        Helpers: path.resolve(__dirname, '..', srcFolder, 'helpers')
+        Routes: path.resolve(__dirname, '..', srcFolder, 'routes')
       }
     },
     plugins: [
