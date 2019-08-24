@@ -108,6 +108,7 @@
       "react"
     ],
     "rules": {
+      "react/jsx-fragments": 0,
       "react/prop-types": 0,
       "camelcase": [
         1,
