@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Container,
   Grid,
@@ -8,6 +8,8 @@ import {
   Segment
 } from 'semantic-ui-react'
 
+import FileUploadModal from 'Components/FileUploadModal'
+
 const options = [
   { text: 'Admin', value: 1 },
   { text: 'Owner', value: 2 },
@@ -15,16 +17,19 @@ const options = [
 ]
 
 const OrganizationForm = () => {
+  const [croppedImage, setCroppedImage] = useState(null)
+  const [showFileModal, setShowFileModal] = useState(false)
+
   return (
-    <Container>
+    <Container className='l-mt2'>
       <Segment padded='very'>
         <Grid relaxed divided stackable>
           <Grid.Column width={4}>
             <Image
+              onClick={() => setShowFileModal(true)}
               centered
-              fluid
               circular
-              src='https://via.placeholder.com/250/250'
+              src={croppedImage || 'https://via.placeholder.com/250/250'}
               size='medium'
             />
           </Grid.Column>
@@ -91,6 +96,11 @@ const OrganizationForm = () => {
           </Grid.Column>
         </Grid>
       </Segment>
+      <FileUploadModal
+        setCroppedImage={setCroppedImage}
+        open={showFileModal}
+        setOpen={setShowFileModal}
+      />
     </Container>
   )
 }
