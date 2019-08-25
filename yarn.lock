@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@abarcenas/atomic-styles@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@abarcenas/atomic-styles/-/atomic-styles-1.0.0.tgz#d4c07a14df2d2ad333754988d4fbf9e425be2faf"
+"@abarcenas/atomic-styles@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@abarcenas/atomic-styles/-/atomic-styles-1.0.1.tgz#2b87923152be4157292427cf102a5b6ebd764ff1"
   dependencies:
     node-sass "^4.12.0"
 
@@ -2584,6 +2584,10 @@ create-react-context@^0.3.0:
   dependencies:
     gud "^1.0.0"
     warning "^4.0.3"
+
+cropperjs@v1.0.0-rc.3:
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.0.0-rc.3.tgz#50a7c7611befc442702f845ede77d7df4572e82b"
 
 cross-env@^5.2.0:
   version "5.2.0"
@@ -6627,7 +6631,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   dependencies:
@@ -6764,6 +6768,14 @@ rc@^1.2.7:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-cropper@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-1.2.0.tgz#f0e51adbf4bdc91b19d0c766e8b7d87d89057a47"
+  dependencies:
+    babel-core "7.0.0-bridge.0"
+    cropperjs v1.0.0-rc.3
+    prop-types "^15.5.8"
 
 react-dom@^16.9.0:
   version "16.9.0"

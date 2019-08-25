@@ -11,8 +11,10 @@
     "test": "cross-env NODE_ENV=test && jest --colors"
   },
   "dependencies": {
-    "@abarcenas/atomic-styles": "^1.0.0",
+    "@abarcenas/atomic-styles": "^1.0.1",
+    "classnames": "^2.2.6",
     "react": "^16.9.0",
+    "react-cropper": "^1.2.0",
     "react-dom": "^16.9.0",
     "react-final-form": "^6.3.0",
     "react-helmet": "^5.2.1",
@@ -109,6 +111,18 @@
     "plugins": [
       "react"
     ],
+    "globals": {
+      "Blob": true,
+      "DEV_MARKER": true,
+      "FileReader": true,
+      "FormData": true,
+      "confirm": true,
+      "localStorage": true,
+      "location": true,
+      "sessionStorage": true,
+      "File": true,
+      "atob": true
+    },
     "rules": {
       "react/jsx-fragments": 0,
       "react/prop-types": 0,
