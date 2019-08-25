@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 
 import OrgRoutes from 'Routes/organization'
+import UserRoutes from 'Routes/users'
 
 const LoadLogin = lazy(() => import('Containers/Login' /* webpackChunkName: "Container-Home" */))
 
@@ -27,6 +28,13 @@ const routes = [
     component: LoadDashboard,
     routes: [
       ...OrgRoutes
+    ]
+  },
+  {
+    path: '/users',
+    component: LoadDashboard,
+    routes: [
+      ...UserRoutes
     ]
   }
 ]

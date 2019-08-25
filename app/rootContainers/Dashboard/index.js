@@ -46,59 +46,74 @@ const DashboardRoot = ({ routes, match, history }) => {
   return (
     <Context.Provider value={{ history }}>
       <Grid
-        textAlign='center'
         style={{ height: '100vh' }}
-        verticalAlign='middle'
       >
-        <Menu fixed='top' inverted>
-          <Menu.Item
-            as='a'
-            header
-            onClick={() => history.push('/dashboard')}
-          >
-            PuSA
-          </Menu.Item>
-          <Menu.Item
-            as='a'
-            onClick={() => history.push('/organizations')}
-          >
-            Organization
-          </Menu.Item>
-          <Menu.Item>Users</Menu.Item>
-        </Menu>
-        <Grid.Column stretched style={{ width: '100vw' }}>
-          {
-            isExact && path === '/dashboard' &&
-              <Grid container textAlign='center' columns='equal'>
-                <Grid.Column>
-                  <NavButton
-                    icon='building'
-                    label='Organization'
-                    to='/organizations'
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  <NavButton
-                    icon='users'
-                    label='Users'
-                    to='/users'
-                  />
-                </Grid.Column>
-              </Grid>
-          }
-          {
-            isExact && path === '/organizations' &&
-              <Redirect
-                to='/organizations/list'
-              />
-          }
-          {
-            !isExact &&
-              <Switch>
-                {routes.map((r, i) => <RouteWithSubroutes key={i} {...r} />)}
-              </Switch>
-          }
-        </Grid.Column>
+        <Grid.Row>
+          <Grid.Column>
+            <Menu inverted>
+              <Menu.Item
+                as='a'
+                header
+                onClick={() => history.push('/dashboard')}
+              >
+                PuSA
+              </Menu.Item>
+              <Menu.Item
+                as='a'
+                onClick={() => history.push('/organizations')}
+              >
+                Organization
+              </Menu.Item>
+              <Menu.Item
+                as='a'
+                onClick={() => history.push('/users')}
+              >
+                Users
+              </Menu.Item>
+            </Menu>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column stretched textAlign='center'>
+            {
+              isExact && path === '/dashboard' &&
+                <Grid container textAlign='center' columns='equal'>
+                  <Grid.Column>
+                    <NavButton
+                      icon='building'
+                      label='Organization'
+                      to='/organizations'
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <NavButton
+                      icon='users'
+                      label='Users'
+                      to='/users'
+                    />
+                  </Grid.Column>
+                </Grid>
+            }
+            {
+              isExact && path === '/organizations' &&
+                <Redirect
+                  to='/organizations/list'
+                />
+            }
+            {
+              isExact && path === '/users' &&
+                <Redirect
+                  to='/users/list'
+                />
+            }
+            {
+              !isExact &&
+                <Switch>
+                  {routes.map((r, i) => <RouteWithSubroutes key={i} {...r} />)}
+                </Switch>
+            }
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     </Context.Provider>
   )

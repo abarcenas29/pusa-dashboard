@@ -25,7 +25,7 @@ const OrgListItem = () => {
 
 const OrganizationList = ({ history }) => {
   return (
-    <Container fluid>
+    <Container fluid className='l-pa1'>
       <Segment>
         <Grid textAlign='left'>
           <Grid.Row columns={2}>
