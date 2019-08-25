@@ -1,4 +1,6 @@
+import 'sanitize.css'
 import 'semantic-ui-css/semantic.min.css'
+import '@abarcenas/atomic-styles/css/global.css'
 
 import React, { Suspense } from 'react'
 import { hot } from 'react-hot-loader'
@@ -6,7 +8,7 @@ import ReactDOM from 'react-dom'
 
 import RouteWithSubroutes from 'Components/RouteWithSubRoutes'
 import routes from './routes'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const env = process.env.NODE_ENV
 

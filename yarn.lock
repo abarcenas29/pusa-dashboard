@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@abarcenas/atomic-styles@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@abarcenas/atomic-styles/-/atomic-styles-1.0.0.tgz#d4c07a14df2d2ad333754988d4fbf9e425be2faf"
+  dependencies:
+    node-sass "^4.12.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
@@ -7319,6 +7325,10 @@ sane@^4.0.3:
     micromatch "^3.1.4"
     minimist "^1.1.1"
     walker "~1.0.5"
+
+sanitize.css@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-11.0.0.tgz#29bb394c0543616f31cd8c58fcba8323a60e2ef6"
 
 sass-graph@^2.2.4:
   version "2.2.4"
