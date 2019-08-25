@@ -13,6 +13,7 @@
   "dependencies": {
     "@abarcenas/atomic-styles": "^1.0.1",
     "classnames": "^2.2.6",
+    "leaflet": "^1.5.1",
     "react": "^16.9.0",
     "react-cropper": "^1.2.0",
     "react-dom": "^16.9.0",
@@ -40,7 +41,6 @@
     "@babel/preset-react": "^7.0.0",
     "@hot-loader/react-dom": "^16.9.0",
     "autoprefixer": "^9.6.1",
-    "redux-devtools-extension": "^2.13.8",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
@@ -68,13 +68,15 @@
     "react-hot-loader": "^4.12.11",
     "react-loadable": "^5.5.0",
     "react-router-dom": "^5.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "rimraf": "^3.0.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
     "styled-components": "^4.3.2",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.8.0",
+    "copy-webpack-plugin": "^5.0.4"
   },
   "babel": {
     "presets": [

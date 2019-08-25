@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoPrefixer = require('autoprefixer')
 const cssnano = require('cssnano')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = (env, options) => {
@@ -44,7 +45,13 @@ module.exports = (env, options) => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[id].css'
-      })
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve('app', 'assets'),
+          to: 'assets'
+        }
+      ])
     ],
     devServer: {
       historyApiFallback: true,

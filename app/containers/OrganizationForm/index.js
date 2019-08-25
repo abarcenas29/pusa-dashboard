@@ -9,11 +9,13 @@ import {
   Segment
 } from 'semantic-ui-react'
 
+import CoordSearchModal from 'Components/CoordSearchModal'
 import FileUploadModal from 'Components/FileUploadModal'
 
 const OrganizationForm = () => {
   const [croppedImage, setCroppedImage] = useState(null)
   const [showFileModal, setShowFileModal] = useState(false)
+  const [showCoordSearchModal, setShowCoordSearchModal] = useState(true)
 
   return (
     <Container className='l-mt2'>
@@ -79,6 +81,10 @@ const OrganizationForm = () => {
         setCroppedImage={setCroppedImage}
         open={showFileModal}
         setOpen={setShowFileModal}
+      />
+      <CoordSearchModal
+        open={showCoordSearchModal}
+        setOpen={setShowCoordSearchModal}
       />
     </Container>
   )

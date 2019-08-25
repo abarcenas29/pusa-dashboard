@@ -45,7 +45,6 @@ const FileUploadModal = ({ setCroppedImage, open, setOpen }) => {
 
   const onCrop = (e) => {
     setCroppedData(e.target.cropper)
-    // console.log()
   }
 
   const onChangeFile = (e, v) => {
