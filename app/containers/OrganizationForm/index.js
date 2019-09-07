@@ -58,7 +58,12 @@ const OrganizationForm = () => {
                 <Form.Field
                   style={{ display: 'flex', justifyContent: 'flex-end' }}
                 >
-                  <Button type='button' size='big' icon='map marker' />
+                  <Button
+                    type='button'
+                    size='big'
+                    icon='map marker'
+                    onClick={() => setShowCoordSearchModal(true)}
+                  />
                 </Form.Field>
               </Form.Group>
               <Form.Field>

@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux'
 import { ajax } from 'rxjs/ajax'
-import { createEpicMiddleware, combineEpics } from 'redux-observable'
+import createEpicMiddleware, { hotReloadEpic } from './epics'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import appReducer from './appReducer.js'
@@ -59,7 +59,7 @@ export const configureStore = (initialState = {}) => {
     store.replaceReducer(createReducer(store.asyncReducers))
   }
 
-  reduxObservableMiddleWare.run(combineEpics())
+  reduxObservableMiddleWare.run(hotReloadEpic)
   // Return the modified store
   return store
 }

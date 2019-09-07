@@ -1,10 +1,18 @@
 import 'leaflet/dist/leaflet.css'
 
-import React, { useRef, useState } from 'react'
-import { Button, Modal, Grid, Input } from 'semantic-ui-react'
+import React, { useRef, useState, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { Button, Modal, Grid, Search } from 'semantic-ui-react'
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet'
+import qs from 'querystring'
 
 import L from 'leaflet'
+
+import { useMountReducer } from 'Helpers/hooks'
+
+import reducer, { SEARCH_ADDRESS_REQUEST_ACTION } from './reducer'
+import { addressesSelector, isLoadingSelector } from './selectors'
 
 delete L.Icon.Default.prototype._getIconUrl
 
@@ -15,11 +23,33 @@ L.Icon.Default.mergeOptions({
 })
 
 const CoordSearchModal = ({ open, setOpen }) => {
+  useMountReducer('componentCoordSearchModal', reducer)
+
   const mapRef = useRef()
+  const dispatch = useDispatch()
+
+  const { addresses, isLoading } = useSelector(
+    createStructuredSelector({
+      addresses: addressesSelector(),
+      isLoading: isLoadingSelector()
+    })
+  )
 
   const [markers, setMarkers] = useState([])
+  const [selectedAddress, setSelectedAddresses] = useState('')
+  const [mapPosition, setMapPosition] = useState([51.505, -0.09])
+  const [zoomValue, setZoomValue] = useState(13)
 
-  const position = [51.505, -0.09]
+  const searchAddressDispatch = useCallback(
+    query => dispatch(SEARCH_ADDRESS_REQUEST_ACTION(query)),
+    [dispatch]
+  )
+
+  const onSelectAddressClick = useCallback((e, { result: { lat, lon, title } }) => {
+    setSelectedAddresses(title)
+    setMapPosition([lat, lon])
+    setZoomValue(18)
+  }, [])
 
   const handleClick = e => {
     setMarkers(prevState => [...prevState, e.latlng])
@@ -36,7 +66,7 @@ const CoordSearchModal = ({ open, setOpen }) => {
   ))
 
   return (
-    <Modal open={open} size='small'>
+    <Modal open={open} onClose={() => setOpen(false)} size='small'>
       <Modal.Header>
         Search Address
       </Modal.Header>
@@ -44,15 +74,24 @@ const CoordSearchModal = ({ open, setOpen }) => {
         <Grid>
           <Grid.Row>
             <Grid.Column>
-              <Input
-                list='addresses'
+              <Search
+                loading={isLoading}
+                onResultSelect={onSelectAddressClick}
                 fluid
-                placeholder='Type address here'
-                size='large'
+                input={
+                  (Component, props) =>
+                    <Component className='l-w-100' {...props} />
+                }
+                onSearchChange={(e, { value }) => {
+                  const q = qs.stringify(
+                    { q: value, format: 'jsonv2' }
+                  )
+                  setSelectedAddresses(value)
+                  searchAddressDispatch(q)
+                }}
+                results={addresses}
+                value={selectedAddress}
               />
-              <datalist id='addresses'>
-                <option value='address 1' />
-              </datalist>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -60,9 +99,9 @@ const CoordSearchModal = ({ open, setOpen }) => {
               <LeafletMap
                 onClick={handleClick}
                 ref={mapRef}
-                zoom={13}
+                zoom={zoomValue}
                 style={{ width: '100%', height: 400 }}
-                center={position}
+                center={mapPosition}
               >
                 <TileLayer
                   url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -75,7 +114,7 @@ const CoordSearchModal = ({ open, setOpen }) => {
       </Modal.Content>
       <Modal.Actions>
         <Button secondary onClick={clearMarkers}>Clear</Button>
-        <Button>Close</Button>
+        <Button onClick={() => setOpen(false)}>Close</Button>
       </Modal.Actions>
     </Modal>
   )

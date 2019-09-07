@@ -1,11 +1,12 @@
 require('dotenv').config()
 
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const DotenvWebpack = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoPrefixer = require('autoprefixer')
 const cssnano = require('cssnano')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = (env, options) => {
@@ -51,7 +52,8 @@ module.exports = (env, options) => {
           from: path.resolve('app', 'assets'),
           to: 'assets'
         }
-      ])
+      ]),
+      new DotenvWebpack()
     ],
     devServer: {
       historyApiFallback: true,
