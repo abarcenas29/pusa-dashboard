@@ -1,6 +1,8 @@
 require('dotenv').config()
 
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const DotenvWebpack = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoPrefixer = require('autoprefixer')
@@ -44,7 +46,14 @@ module.exports = (env, options) => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[id].css'
-      })
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve('app', 'assets'),
+          to: 'assets'
+        }
+      ]),
+      new DotenvWebpack()
     ],
     devServer: {
       historyApiFallback: true,
