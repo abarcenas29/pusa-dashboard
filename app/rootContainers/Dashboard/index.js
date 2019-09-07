@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 import cx from 'classnames'
 import {
@@ -58,6 +58,12 @@ const DashboardRoot = ({ routes, match, history }) => {
     { 'l-jc-cen': isExact && path === '/dashboard' },
     { 'l-d-f': isExact && path === '/dashboard' }
   )
+
+  const handleLogout = useCallback(() => {
+    localStorage.clear()
+    history.push('/')
+  }, [])
+
   return (
     <Context.Provider value={{ history }}>
       <Container className='l-d-f l-fd-col'>
@@ -82,6 +88,9 @@ const DashboardRoot = ({ routes, match, history }) => {
             >
             Users
             </Menu.Item>
+            <Menu.Menu position='right'>
+              <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+            </Menu.Menu>
           </Menu>
         </div>
         <div className={classNames}>
