@@ -1,26 +1,15 @@
-import 'leaflet/dist/leaflet.css'
-
 import React, { useRef, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { Button, Modal, Grid, Search } from 'semantic-ui-react'
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Marker, Popup } from 'react-leaflet'
 import qs from 'querystring'
 
-import L from 'leaflet'
-
+import LeafletMap from 'Components/LeafletMap'
 import { useMountReducer } from 'Helpers/hooks'
 
 import reducer, { SEARCH_ADDRESS_REQUEST_ACTION } from './reducer'
 import { addressesSelector, isLoadingSelector } from './selectors'
-
-delete L.Icon.Default.prototype._getIconUrl
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-})
 
 const CoordSearchModal = ({ open, setOpen }) => {
   useMountReducer('componentCoordSearchModal', reducer)
@@ -100,12 +89,8 @@ const CoordSearchModal = ({ open, setOpen }) => {
                 onClick={handleClick}
                 ref={mapRef}
                 zoom={zoomValue}
-                style={{ width: '100%', height: 400 }}
                 center={mapPosition}
               >
-                <TileLayer
-                  url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                />
                 {markerList}
               </LeafletMap>
             </Grid.Column>

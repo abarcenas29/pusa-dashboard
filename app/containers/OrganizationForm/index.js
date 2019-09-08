@@ -15,7 +15,7 @@ import FileUploadModal from 'Components/FileUploadModal'
 const OrganizationForm = () => {
   const [croppedImage, setCroppedImage] = useState(null)
   const [showFileModal, setShowFileModal] = useState(false)
-  const [showCoordSearchModal, setShowCoordSearchModal] = useState(true)
+  const [showCoordSearchModal, setShowCoordSearchModal] = useState(false)
 
   return (
     <Container className='l-mt2'>
