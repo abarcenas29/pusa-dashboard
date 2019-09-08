@@ -13,7 +13,7 @@ export default [
     firstName: 'Organization',
     lastName: 'User',
     password: 'Test2019',
-    type: 'owner',
+    role: 'owner',
     orgId: 1,
     id: 2
   },
