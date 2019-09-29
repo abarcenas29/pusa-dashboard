@@ -13,11 +13,11 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
-const Map = React.forwardRef(({ children, ...props }, ref) => {
+const Map = React.forwardRef(({ children, height, ...props }, ref) => {
   return (
     <LeafletMap
       {...props}
-      style={{ width: '100%', height: 400 }}
+      style={{ width: '100%', height: `${height || 400}px` }}
     >
       <TileLayer
         url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
