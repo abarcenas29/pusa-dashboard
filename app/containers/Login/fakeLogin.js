@@ -19,7 +19,7 @@ export default [
   },
   {
     email: 'employee@fakeuser.com',
-    firstName: 'Admin',
+    firstName: 'Employee',
     lastName: 'User',
     password: 'Test2019',
     role: 'employee',

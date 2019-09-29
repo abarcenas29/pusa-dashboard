@@ -44,6 +44,16 @@ const routes = [
     routes: [
       ...Employees
     ]
+  },
+  {
+    path: '/payroll',
+    component: LoadDashboard,
+    exact: true
+  },
+  {
+    path: '/logs',
+    component: LoadDashboard,
+    exact: true
   }
 ]
 

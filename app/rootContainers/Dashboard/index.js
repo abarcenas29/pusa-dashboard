@@ -19,6 +19,9 @@ const Container = styled.div`
     overflow-y: auto;
   }
 `
+const LoadPayroll = lazy(() => import('Containers/Payroll' /* webpackChunkName: "Container-Payroll" */))
+
+const LoadLogs = lazy(() => import('Containers/Logs' /* webpackChunkName: "Container-Payroll" */))
 
 const LoadDashboard = lazy(() => import('Containers/Dashboard' /* webpackChunkName: "Containers-Dashboard" */))
 
@@ -55,6 +58,14 @@ const DashboardRoot = ({ routes, match, history }) => {
           {
             isExact && path === '/dashboard' &&
               <LoadDashboard />
+          }
+          {
+            isExact && path === '/payroll' &&
+              <LoadPayroll />
+          }
+          {
+            isExact && path === '/logs' &&
+              <LoadLogs />
           }
           {
             isExact && path === '/organizations' &&

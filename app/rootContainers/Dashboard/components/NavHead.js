@@ -4,8 +4,10 @@ import {
   Menu
 } from 'semantic-ui-react'
 
-import { userLinks, orgLinks } from './../helpers'
 import Context from './../context'
+import AdminNavHead from './AdminNavHead'
+import EmployeeNavHead from './EmployeeNavHead'
+import EmployerNavHead from './EmployerNavHead'
 
 const NavHead = () => {
   const {
@@ -18,16 +20,6 @@ const NavHead = () => {
     history.push('/')
   }, [])
 
-  const handleOrganization = useCallback(() => {
-    const { role } = profile
-    return history.push(orgLinks(role))
-  }, [profile])
-
-  const handleUsers = useCallback(() => {
-    const { role } = profile
-    return history.push(userLinks(role))
-  }, [profile])
-
   return (
     <div className='main-nav'>
       <Menu inverted>
@@ -39,27 +31,17 @@ const NavHead = () => {
             PuSA
         </Menu.Item>
         {
-          profile.role !== 'employee' &&
-            <Menu.Item
-              as='a'
-              onClick={handleOrganization}
-            >
-              Organization
-            </Menu.Item>
+          profile.role === 'admin' &&
+            <AdminNavHead />
         }
-        <Menu.Item
-          as='a'
-          onClick={handleUsers}
-        >
-          {
-            profile.role === 'admin' &&
-                'Users'
-          }
-          {
-            profile.role === 'owner' &&
-                'Employees'
-          }
-        </Menu.Item>
+        {
+          profile.role === 'employer' &&
+            <EmployerNavHead />
+        }
+        {
+          profile.role === 'employee' &&
+            <EmployeeNavHead />
+        }
         <Menu.Menu position='right'>
           <Menu.Item
             onClick={handleLogout}
