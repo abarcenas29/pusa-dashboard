@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css'
 
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {
   Button,
   Form,
@@ -9,42 +9,47 @@ import {
   Message,
   Segment
 } from 'semantic-ui-react'
+import { createStructuredSelector } from 'reselect'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 import { Form as ReactForm, Field } from 'react-final-form'
 
-import Users from './fakeLogin'
+import { useMountReducer } from 'Helpers/hooks'
+
+import reducer, { LOGIN_REQUEST_ACTION } from './reducer'
+import { userSelector } from './selectors'
 
 export default ({ history }) => {
-  const onSubmit = value => {
-    const { email, password } = value
-    const foundUsers = Users.filter(user => (
-      user.email === email &&
-      user.password === password
-    ))
+  useMountReducer('containerLogin', reducer)
+  const dispatch = useDispatch()
 
-    if (foundUsers.length > 0) {
-      const {
-        email,
-        firstName,
-        id,
-        lastName,
-        orgId,
-        role
-      } = foundUsers[0]
+  const { login } = useSelector(
+    createStructuredSelector({
+      login: userSelector()
+    })
+  )
 
+  const onSubmit = useCallback(({ email, password }) => {
+    dispatch(LOGIN_REQUEST_ACTION({ email, password }))
+  }, [dispatch])
+
+  useEffect(() => {
+    if (login.email) {
+      const { email, first_name, last_name, uid, type } = login
       localStorage.setItem('email', email)
-      localStorage.setItem('firstName', firstName)
-      localStorage.setItem('lastName', lastName)
-      localStorage.setItem('id', id)
-      localStorage.setItem('orgId', orgId)
-      localStorage.setItem('role', role)
+      localStorage.setItem('firstName', first_name)
+      localStorage.setItem('lastName', last_name)
+      localStorage.setItem('id', uid)
+      // localStorage.setItem('orgId', orgId)
+      localStorage.setItem('role', type)
+      toast.success('Login Ok')
       history.push('/dashboard')
-
-      toast.success('Logged In')
-    } else {
-      toast.error('Invalid Username/Password')
     }
-  }
+
+    if (login.error) {
+      toast.error(login.error)
+    }
+  }, [login])
 
   useEffect(() => {
     localStorage.clear()
