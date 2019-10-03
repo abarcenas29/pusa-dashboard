@@ -6,11 +6,11 @@ import React, { Suspense } from 'react'
 import { hot } from 'react-hot-loader'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 
 import Store from './store'
 import RouteWithSubroutes from 'Components/RouteWithSubRoutes'
 import routes from './routes'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
 
 const env = process.env.NODE_ENV
 
@@ -20,7 +20,10 @@ const App = () => {
       <Router>
         <Suspense fallback={<p>Loading</p>}>
           <Switch>
-            {routes.map((route, i) => <RouteWithSubroutes key={i} {...route} />)}
+            {
+              routes.map((route, i) =>
+                <RouteWithSubroutes key={i} {...route} />)
+            }
           </Switch>
         </Suspense>
       </Router>

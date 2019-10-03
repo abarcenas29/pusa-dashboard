@@ -5,10 +5,15 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 import cx from 'classnames'
+import { toast, ToastContainer } from 'react-toastify'
 import { Switch, Redirect } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 
 import RouteWithSubroutes from 'Components/RouteWithSubRoutes'
+import { REDIRECT_ACTION, TOAST_ACTION } from 'App/appReducer'
 
+import { redirectSelector, toastSelector } from './selector'
 import NavHead from './components/NavHead.js'
 import Context from './context'
 
@@ -19,13 +24,28 @@ const Container = styled.div`
     overflow-y: auto;
   }
 `
-const LoadPayroll = lazy(() => import('Containers/Payroll' /* webpackChunkName: "Container-Payroll" */))
+const LoadPayroll = lazy(() => import('Containers/Payroll'
+  /* webpackChunkName: "Container-Payroll" */)
+)
 
-const LoadLogs = lazy(() => import('Containers/Logs' /* webpackChunkName: "Container-Payroll" */))
+const LoadLogs = lazy(() => import('Containers/Logs'
+  /* webpackChunkName: "Container-Payroll" */)
+)
 
-const LoadDashboard = lazy(() => import('Containers/Dashboard' /* webpackChunkName: "Containers-Dashboard" */))
+const LoadDashboard = lazy(() => import('Containers/Dashboard'
+  /* webpackChunkName: "Containers-Dashboard" */)
+)
 
 const DashboardRoot = ({ routes, match, history }) => {
+  const dispatch = useDispatch()
+  const { redirect, toastObj } = useSelector(
+    createStructuredSelector(
+      {
+        redirect: redirectSelector(),
+        toastObj: toastSelector()
+      }
+    )
+  )
   const { isExact, path } = match
   const [profile, setProfile] = useState({
     name: null,
@@ -49,6 +69,31 @@ const DashboardRoot = ({ routes, match, history }) => {
       role
     })
   }, [])
+
+  useEffect(() => {
+    if (redirect) {
+      history.push(redirect)
+      dispatch(REDIRECT_ACTION(null))
+    }
+  }, [redirect])
+
+  useEffect(() => {
+    if (toastObj) {
+      const { type, message } = toastObj
+      switch (type) {
+        case 'success':
+          toast.success(message)
+          break
+        case 'error':
+          toast.error(message)
+          break
+        default:
+          toast.info(message)
+          break
+      }
+      dispatch(TOAST_ACTION(null))
+    }
+  }, [toastObj])
 
   return (
     <Context.Provider value={{ history, profile }}>
@@ -93,6 +138,7 @@ const DashboardRoot = ({ routes, match, history }) => {
           }
         </div>
       </Container>
+      <ToastContainer />
     </Context.Provider>
   )
 }

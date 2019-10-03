@@ -1,45 +1,53 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { createStructuredSelector } from 'reselect'
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux'
 import {
   Icon,
-  Pagination,
   Table
 } from 'semantic-ui-react'
 
+import { LIST_REQUEST_ACTION } from './../reducer'
+import { listSelector } from './../selectors'
 import Context from './../context.js'
 
-const userDetailLink = role => {
+const userDetailLink = (role, uid) => {
   switch (role) {
     case 'admin':
-      return '/user/detail'
+      return `/users/${uid}`
     case 'owner':
-      return '/employees/detail'
+      return `/employees/detail/${uid}`
   }
 }
 
-const TableItem = () => {
+const TableItem = ({
+  uid,
+  address,
+  email,
+  first_name,
+  last_name,
+  middle_name
+}) => {
   const { history, profile } = useContext(Context)
+
   return (
     <Table.Row>
-      <Table.Cell singleLine>Solidad Romero</Table.Cell>
-      <Table.Cell>123 Ficticious street, ficticious subdv, ficticious municipality, Rizal, PH</Table.Cell>
-      <Table.Cell>fake@email.com</Table.Cell>
+      <Table.Cell singleLine>
+        {`${last_name} ${first_name}, ${middle_name}`}
+      </Table.Cell>
+      <Table.Cell>{`${address}`}</Table.Cell>
+      <Table.Cell>{`${email}`}</Table.Cell>
       <Table.Cell singleLine>
         <div>
-          <Icon
-            link
-            bordered
-            circular
-            color='red'
-            inverted
-            name='trash'
-          />
           <Icon
             name='edit'
             inverted
             bordered
             circular
             link
-            onClick={() => history.push(userDetailLink(profile.role))}
+            onClick={() => history.push(userDetailLink(profile.role, uid))}
           />
         </div>
       </Table.Cell>
@@ -48,6 +56,22 @@ const TableItem = () => {
 }
 
 const List = () => {
+  const dispatch = useDispatch()
+
+  const { list } = useSelector(
+    createStructuredSelector({
+      list: listSelector()
+    })
+  )
+
+  useEffect(() => {
+    dispatch(LIST_REQUEST_ACTION())
+  }, [])
+
+  // useEffect(() => {
+  //   console.log(list)
+  // }, [list])
+
   return (
     <Table padded size='large' striped>
       <Table.Header>
@@ -60,20 +84,14 @@ const List = () => {
       </Table.Header>
 
       <Table.Body>
-        <TableItem />
-        <TableItem />
-        <TableItem />
-        <TableItem />
-        <TableItem />
+        {
+          list.rows.map((r, i) => (
+            <TableItem {...r} key={i} />
+          ))
+        }
       </Table.Body>
 
-      <Table.Footer>
-        <Table.Row textAlign='right'>
-          <Table.HeaderCell colSpan='4'>
-            <Pagination defaultActivePage={5} totalPages={10} />
-          </Table.HeaderCell>
-        </Table.Row>
-      </Table.Footer>
+      <Table.Footer />
     </Table>
   )
 }
