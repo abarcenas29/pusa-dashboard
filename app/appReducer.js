@@ -1,19 +1,20 @@
 import { createAction, handleActions } from 'redux-actions'
 import {
   API_ERROR_FAILOVER,
-  API_REQUEST,
-  API_SUCCESS
+  REDIRECT,
+  TOAST
 } from './constants'
 
 const defaultState = {
-  field: 'value',
   isLoading: false,
-  response: null
+  redirect: null,
+  response: null,
+  toast: null
 }
 
 export const API_ERROR_FAILOVER_ACTION = createAction(API_ERROR_FAILOVER)
-export const API_REQUEST_ACTION = createAction(API_REQUEST)
-export const API_SUCCESS_ACTION = createAction(API_SUCCESS)
+export const REDIRECT_ACTION = createAction(REDIRECT)
+export const TOAST_ACTION = createAction(TOAST)
 
 const reducer = handleActions(
   new Map([
@@ -22,12 +23,12 @@ const reducer = handleActions(
       (s, { payload }) => ({ ...s, field: payload })
     ],
     [
-      API_REQUEST_ACTION,
-      (s, { payload }) => ({ ...s, isLoading: true })
+      REDIRECT_ACTION,
+      (s, { payload }) => ({ ...s, redirect: payload })
     ],
     [
-      API_SUCCESS_ACTION,
-      (s, { payload }) => ({ ...s, isLoading: false, response: payload })
+      TOAST_ACTION,
+      (s, { payload }) => ({ ...s, toast: payload })
     ]
   ]),
   defaultState

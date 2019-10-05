@@ -8,13 +8,17 @@ import {
 } from 'semantic-ui-react'
 
 import DashboardRootContext from 'RootContainers/Dashboard/context'
+import { useMountReducer } from 'Helpers/hooks'
 
 import Context from './context'
-import Table from './components/Table'
 import OwnerHeader from './components/OwnerHeader'
+import Table from './components/Table'
+import reducer from './reducer'
 
 const UserList = ({ history }) => {
+  useMountReducer('containerUserList', reducer)
   const { profile } = useContext(DashboardRootContext)
+
   return (
     <Context.Provider value={{ history, profile }}>
       <Container fluid className='l-pa1'>
