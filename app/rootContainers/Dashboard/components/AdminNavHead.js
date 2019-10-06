@@ -9,9 +9,9 @@ const AdminNavHead = () => {
     <Fragment>
       <Menu.Item
         as='a'
-        onClick={() => history.push('/organizations')}
+        onClick={() => history.push('/stores')}
       >
-        Organization
+        Stores
       </Menu.Item>
       <Menu.Item
         as='a'
