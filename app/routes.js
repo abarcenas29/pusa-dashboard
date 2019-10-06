@@ -1,6 +1,6 @@
 import { lazy } from 'react'
 
-import OrgRoutes from 'Routes/organization'
+import StoreRoutes from 'Routes/stores'
 import UserRoutes from 'Routes/users'
 import Employees from 'Routes/employees'
 
@@ -25,10 +25,10 @@ const routes = [
     component: LoadDashboard
   },
   {
-    path: '/organizations',
+    path: '/stores',
     component: LoadDashboard,
     routes: [
-      ...OrgRoutes
+      ...StoreRoutes
     ]
   },
   {

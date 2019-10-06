@@ -24,8 +24,7 @@ import { userFormSelector } from './selectors'
 
 const options = [
   { text: 'Admin', value: 'admin' },
-  { text: 'Owner', value: 'owner' },
-  { text: 'Employee', value: 'employee' }
+  { text: 'Owner', value: 'owner' }
 ]
 
 const OrganizationForm = ({ location, match, ...props }) => {

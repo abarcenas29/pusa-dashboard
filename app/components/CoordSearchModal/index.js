@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { Button, Modal, Grid, Search } from 'semantic-ui-react'
@@ -11,7 +11,7 @@ import { useMountReducer } from 'Helpers/hooks'
 import reducer, { SEARCH_ADDRESS_REQUEST_ACTION } from './reducer'
 import { addressesSelector, isLoadingSelector } from './selectors'
 
-const CoordSearchModal = ({ open, setOpen }) => {
+const CoordSearchModal = ({ open, setOpen, setCoords, coords }) => {
   useMountReducer('componentCoordSearchModal', reducer)
 
   const mapRef = useRef()
@@ -42,6 +42,7 @@ const CoordSearchModal = ({ open, setOpen }) => {
 
   const handleClick = e => {
     setMarkers(prevState => [...prevState, e.latlng])
+    setCoords(e.latlng)
   }
 
   const clearMarkers = () => {
@@ -53,6 +54,11 @@ const CoordSearchModal = ({ open, setOpen }) => {
       <Popup>Testing</Popup>
     </Marker>
   ))
+
+  useEffect(() => {
+    setMapPosition([coords[0], coords[1]])
+    setMarkers([{ lat: coords[0], lng: coords[1] }])
+  }, [coords])
 
   return (
     <Modal open={open} onClose={() => setOpen(false)} size='small'>
@@ -99,7 +105,11 @@ const CoordSearchModal = ({ open, setOpen }) => {
       </Modal.Content>
       <Modal.Actions>
         <Button secondary onClick={clearMarkers}>Clear</Button>
-        <Button onClick={() => setOpen(false)}>Close</Button>
+        <Button
+          onClick={() => setOpen(false)}
+        >
+          Close
+        </Button>
       </Modal.Actions>
     </Modal>
   )

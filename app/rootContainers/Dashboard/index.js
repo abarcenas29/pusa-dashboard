@@ -113,9 +113,9 @@ const DashboardRoot = ({ routes, match, history }) => {
               <LoadLogs />
           }
           {
-            isExact && path === '/organizations' &&
+            isExact && path === '/stores' &&
               <Redirect
-                to='/organizations/list'
+                to='/stores/list'
               />
           }
           {

@@ -10,7 +10,7 @@ const EmployeeNavHead = () => {
     <Fragment>
       <Menu.Item
         as='a'
-        onClick={() => history.push('/organizations/name-of-organization')}
+        onClick={() => history.push('/stores/name-of-organization')}
       >
         Organization
       </Menu.Item>
