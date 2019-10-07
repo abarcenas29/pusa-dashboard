@@ -15,19 +15,17 @@ import { useMountReducer } from 'Helpers/hooks'
 import { listSelector } from './selectors'
 import reducer, { LIST_REQUEST_ACTION } from './reducers'
 
-const OrgListItem = ({ name, uid, history }) => {
+const OrgListItem = ({ name, address, uid, history }) => {
   return (
-    <List.Item class='l-d-f l-ai-cen l-jc-sb l-mb2'>
-      <div style={{ flexGrow: 1 }}>
-        {name}
-      </div>
-      <div>
-        <Button
-          icon='edit'
-          onClick={() => history.push(`/stores/${uid}`)}
-        />
-        <Button icon='trash' negative />
-      </div>
+    <List.Item onClick={() => history.push(`/stores/${uid}`)}>
+      <List.Content>
+        <List.Header>
+          {name}
+        </List.Header>
+        <List.Description>
+          {address}
+        </List.Description>
+      </List.Content>
     </List.Item>
   )
 }
