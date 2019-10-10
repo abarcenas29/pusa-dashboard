@@ -10,5 +10,17 @@ export const isLoadingSelector = () => createSelector(
 
 export const userFormSelector = () => createSelector(
   containerUserFormRedux(),
-  s => s ? s.userForm : {}
+  s => {
+    if (!s) return {}
+    let employees = {}
+    const { userForm } = s
+
+    if (userForm.employees) {
+      employees = userForm.employees[0]
+    }
+    return {
+      ...userForm,
+      employees
+    }
+  }
 )

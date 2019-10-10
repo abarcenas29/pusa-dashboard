@@ -35,7 +35,7 @@ const NavHead = () => {
             <AdminNavHead />
         }
         {
-          profile.role === 'employer' &&
+          profile.role === 'owner' &&
             <EmployerNavHead />
         }
         {

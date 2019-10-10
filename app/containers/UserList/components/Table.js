@@ -9,18 +9,12 @@ import {
   Table
 } from 'semantic-ui-react'
 
-import { LIST_REQUEST_ACTION } from './../reducer'
+import {
+  USER_LIST_REQUEST_ACTION,
+  EMPLOYEE_LIST_REQUEST_ACTION
+} from './../reducer'
 import { listSelector } from './../selectors'
-import Context from './../context.js'
-
-const userDetailLink = (role, uid) => {
-  switch (role) {
-    case 'admin':
-      return `/users/${uid}`
-    case 'owner':
-      return `/employees/detail/${uid}`
-  }
-}
+import Context from './../context'
 
 const TableItem = ({
   uid,
@@ -30,7 +24,7 @@ const TableItem = ({
   last_name,
   middle_name
 }) => {
-  const { history, profile } = useContext(Context)
+  const { history } = useContext(Context)
 
   return (
     <Table.Row>
@@ -47,7 +41,7 @@ const TableItem = ({
             bordered
             circular
             link
-            onClick={() => history.push(userDetailLink(profile.role, uid))}
+            onClick={() => history.push(`/users/${uid}`)}
           />
         </div>
       </Table.Cell>
@@ -65,7 +59,16 @@ const List = () => {
   )
 
   useEffect(() => {
-    dispatch(LIST_REQUEST_ACTION())
+    const storeId = localStorage.getItem('store')
+    if (storeId) {
+      dispatch(
+        EMPLOYEE_LIST_REQUEST_ACTION({
+          storeUid: localStorage.getItem('store')
+        })
+      )
+    } else {
+      dispatch(USER_LIST_REQUEST_ACTION())
+    }
   }, [])
 
   // useEffect(() => {
