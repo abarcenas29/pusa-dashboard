@@ -1,4 +1,7 @@
 const loc = 'containers/UserList'
 
-export const LIST_REQUEST = `${loc}LIST_REQUEST`
-export const LIST_SUCCESS = `${loc}LIST_SUCCESS`
+export const USER_LIST_REQUEST = `${loc}USER_LIST_REQUEST`
+export const USER_LIST_SUCCESS = `${loc}USER_LIST_SUCCESS`
+
+export const EMPLOYEE_LIST_REQUEST = `${loc}EMPLOYEE_LIST_REQUEST`
+export const EMPLOYEE_LIST_SUCCESS = `${loc}EMPLOYEE_LIST_SUCCESS`

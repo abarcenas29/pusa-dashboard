@@ -2,18 +2,23 @@ import { combineEpics, ofType } from 'redux-observable'
 import { switchMap, map } from 'rxjs/operators'
 
 import { API_URL, CONTENT_TYPE } from 'App/constants'
-import { asyncErrorHandling, responseHandling } from 'Helpers/epics'
+import {
+  asyncErrorHandling,
+  responseHandling
+} from 'Helpers/epics'
 
 import {
-  LIST_REQUEST
+  USER_LIST_REQUEST,
+  EMPLOYEE_LIST_REQUEST
 } from './constants'
 import {
-  LIST_SUCCESS_ACTION
+  USER_LIST_SUCCESS_ACTION,
+  EMPLOYEE_LIST_SUCCESS_ACTION
 } from './reducer'
 
-export const listEpic = (a$, s$, d$) =>
+export const userListEpic = (a$, s$, d$) =>
   a$.pipe(
-    ofType(LIST_REQUEST),
+    ofType(USER_LIST_REQUEST),
     switchMap(
       ({ payload }) => d$.ajaxPOST(
         `${API_URL}users`,
@@ -23,7 +28,26 @@ export const listEpic = (a$, s$, d$) =>
         CONTENT_TYPE
       ).pipe(asyncErrorHandling)
     ),
-    responseHandling(map, res => LIST_SUCCESS_ACTION(res))
+    responseHandling(map, res => USER_LIST_SUCCESS_ACTION(res))
   )
 
-export default combineEpics(listEpic)
+export const employeeListEpic = (a$, s$, d$) =>
+  a$.pipe(
+    ofType(EMPLOYEE_LIST_REQUEST),
+    switchMap(
+      ({ payload }) => d$.ajaxPOST(
+        `${API_URL}employees`,
+        JSON.stringify({
+          action: 'query',
+          ...payload
+        }),
+        CONTENT_TYPE
+      ).pipe(asyncErrorHandling)
+    ),
+    responseHandling(map, res => EMPLOYEE_LIST_SUCCESS_ACTION(res))
+  )
+
+export default combineEpics(
+  userListEpic,
+  employeeListEpic
+)

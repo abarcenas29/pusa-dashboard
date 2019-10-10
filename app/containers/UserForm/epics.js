@@ -50,9 +50,9 @@ export const createUserEpic = (a$, s$, d$) =>
       ).pipe(asyncErrorHandling)
     }),
     responseHandling(mergeMap, res => [
+      REDIRECT_ACTION('/users/list'),
       SUBMIT_SUCCESS_ACTION(res),
-      TOAST_ACTION({ type: 'success', message: 'User Created' }),
-      REDIRECT_ACTION('/users/list')
+      TOAST_ACTION({ type: 'success', message: 'User Created' })
     ])
   )
 

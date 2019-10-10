@@ -16,7 +16,10 @@ import { Form as ReactForm, Field } from 'react-final-form'
 
 import { useMountReducer } from 'Helpers/hooks'
 
-import reducer, { LOGIN_REQUEST_ACTION } from './reducer'
+import reducer, {
+  LOGIN_REQUEST_ACTION,
+  LOGIN_SUCCESS_ACTION
+} from './reducer'
 import { userSelector } from './selectors'
 
 export default ({ history }) => {
@@ -35,13 +38,16 @@ export default ({ history }) => {
 
   useEffect(() => {
     if (login.email) {
+      console.log(login, 'login')
       const { email, first_name, last_name, uid, type } = login
       localStorage.setItem('email', email)
       localStorage.setItem('firstName', first_name)
       localStorage.setItem('lastName', last_name)
       localStorage.setItem('id', uid)
-      // localStorage.setItem('orgId', orgId)
       localStorage.setItem('role', type)
+      if (login.store) {
+        localStorage.setItem('store', login.store.uid)
+      }
       toast.success('Login Ok')
       history.push('/dashboard')
     }
@@ -53,6 +59,9 @@ export default ({ history }) => {
 
   useEffect(() => {
     localStorage.clear()
+    return () => {
+      dispatch(LOGIN_SUCCESS_ACTION({}))
+    }
   }, [])
 
   return (

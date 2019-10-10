@@ -4,15 +4,16 @@ import { Menu } from 'semantic-ui-react'
 import Context from './../context'
 
 const EmployeeNavHead = () => {
+  const storeId = localStorage.getItem('store')
   const { history } = useContext(Context)
 
   return (
     <Fragment>
       <Menu.Item
         as='a'
-        onClick={() => history.push('/stores/name-of-organization')}
+        onClick={() => history.push(`/stores/${storeId}`)}
       >
-        Organization
+        Store
       </Menu.Item>
       <Menu.Item
         as='a'

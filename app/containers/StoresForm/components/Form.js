@@ -11,6 +11,7 @@ import {
 import { userOptionsSelector } from './../selectors'
 
 const StoreForm = ({ handleSubmit, form }) => {
+  const storeId = localStorage.getItem('store')
   const dispatch = useDispatch()
   const {
     coords,
@@ -113,6 +114,7 @@ const StoreForm = ({ handleSubmit, form }) => {
               const { onChange, value, ...restInput } = input
               return (
                 <Form.Select
+                  disabled={!!storeId}
                   value={value}
                   onChange={(e, v) => {
                     onChange(v.value)
