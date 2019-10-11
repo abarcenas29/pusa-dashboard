@@ -114,7 +114,7 @@ const OrganizationForm = ({ location, match, ...props }) => {
         <CoordSearchModal
           open={showCoordSearchModal}
           setOpen={setShowCoordSearchModal}
-          coords={coords[0] ? coords : null}
+          coords={(userForm.lat && userForm.long) ? coords : []}
           setCoords={setCoords}
         />
       </Container>

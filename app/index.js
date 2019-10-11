@@ -1,4 +1,5 @@
 import 'sanitize.css'
+import 'react-toastify/dist/ReactToastify.css'
 import 'semantic-ui-css/semantic.min.css'
 import '@abarcenas/atomic-styles/css/global.css'
 

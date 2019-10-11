@@ -1,0 +1,90 @@
+import { combineEpics, ofType } from 'redux-observable'
+import { switchMap, mergeMap, map } from 'rxjs/operators'
+import { toast } from 'react-toastify'
+import dayjs from 'dayjs'
+
+import { API_URL, CONTENT_TYPE } from 'App/constants'
+import { asyncErrorHandling, responseHandling } from 'Helpers/epics'
+
+import {
+  CHECK_IN_REQUEST,
+  STORE_INFO_REQUEST,
+  SUBMIT_CHECK_IN_REQUEST
+} from './constants'
+import {
+  CHECK_IN_REQUEST_ACTION,
+  CHECK_IN_SUCCESS_ACTION,
+  STORE_INFO_SUCCESS_ACTION,
+  SUBMIT_CHECK_IN_SUCCESS_ACTION
+} from './reducers'
+
+export const submitCheckInEpic = (a$, s$, d$) =>
+  a$.pipe(
+    ofType(SUBMIT_CHECK_IN_REQUEST),
+    switchMap(
+      ({ payload }) =>
+        d$.ajaxPOST(
+          `${API_URL}check-in`,
+          JSON.stringify({
+            ...payload
+          }),
+          CONTENT_TYPE
+        ).pipe(asyncErrorHandling)
+    ),
+    responseHandling(mergeMap, res => {
+      if (res.error) {
+        toast.error(res.error)
+      } else {
+        toast.success('Logged in successfully')
+      }
+
+      return [
+        CHECK_IN_REQUEST_ACTION(),
+        SUBMIT_CHECK_IN_SUCCESS_ACTION(res)
+      ]
+    })
+  )
+
+export const checkInEpic = (a$, s$, d$) =>
+  a$.pipe(
+    ofType(CHECK_IN_REQUEST),
+    switchMap(
+      ({ payload }) => {
+        const currentTime = dayjs()
+        return d$.ajaxPOST(
+          `${API_URL}check-in/current`,
+          JSON.stringify({
+            employeeUid: localStorage.getItem('employee'),
+            time_in: currentTime.hour(0).minute(0)
+          }),
+          CONTENT_TYPE
+        ).pipe(asyncErrorHandling)
+      }
+    ),
+    responseHandling(map, res => CHECK_IN_SUCCESS_ACTION(res))
+  )
+
+export const storeInfoEpic = (a$, s$, d$) =>
+  a$.pipe(
+    ofType(STORE_INFO_REQUEST),
+    switchMap(
+      ({ payload }) =>
+        d$.ajaxPOST(
+          `${API_URL}stores`,
+          JSON.stringify({
+            action: 'query',
+            where: {
+              uid: payload
+            }
+          }),
+          CONTENT_TYPE
+        ).pipe(asyncErrorHandling)
+    ),
+    responseHandling(map, res => STORE_INFO_SUCCESS_ACTION(res))
+  )
+
+export default combineEpics(
+  checkInEpic,
+  storeInfoEpic,
+  submitCheckInEpic
+)
