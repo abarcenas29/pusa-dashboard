@@ -49,19 +49,19 @@ const CoordSearchModal = ({ open, setOpen, setCoords, coords }) => {
     setMarkers([])
   }
 
-  useEffect(() => {
-    if (coords) {
-      setMarkers([{ lat: coords[0], lng: coords[1] }])
-      setMapPosition(coords)
-      setZoomValue(18)
-    }
-  }, [coords])
-
   const markerList = markers.map((p, i) => (
     <Marker key={i} position={p}>
       <Popup>Testing</Popup>
     </Marker>
   ))
+
+  useEffect(() => {
+    if (coords.length > 0) {
+      setMarkers([{ lat: coords[0], lng: coords[1] }])
+      setMapPosition(coords)
+      setZoomValue(18)
+    }
+  }, [coords])
 
   return (
     <Modal open={open} onClose={() => setOpen(false)} size='small'>

@@ -27,6 +27,7 @@ export const Context = React.createContext({})
 
 const OrganizationForm = ({ location, match, ...props }) => {
   useMountReducer('containerUserForm', reducer)
+  const storeId = localStorage.getItem('store')
   const dispatch = useDispatch()
 
   const [croppedImage, setCroppedImage] = useState(null)
@@ -77,11 +78,11 @@ const OrganizationForm = ({ location, match, ...props }) => {
               <Header as='h2' textAlign='right'>
                 {
                   match.params.id &&
-                'Update User'
+                  'Update User'
                 }
                 {
                   !match.params.id &&
-                'Create User'
+                  'Create User'
                 }
               </Header>
               <FinalForm

@@ -1,5 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css'
-
 import React, { useCallback, useEffect } from 'react'
 import {
   Button,
@@ -38,7 +36,6 @@ export default ({ history }) => {
 
   useEffect(() => {
     if (login.email) {
-      console.log(login, 'login')
       const { email, first_name, last_name, uid, type } = login
       localStorage.setItem('email', email)
       localStorage.setItem('firstName', first_name)
@@ -47,6 +44,10 @@ export default ({ history }) => {
       localStorage.setItem('role', type)
       if (login.store) {
         localStorage.setItem('store', login.store.uid)
+      }
+      if (login.employees.length > 0) {
+        localStorage.setItem('employee', login.employees[0].uid)
+        localStorage.setItem('storeId', login.employees[0].storeUid)
       }
       toast.success('Login Ok')
       history.push('/dashboard')
@@ -103,7 +104,6 @@ export default ({ history }) => {
                       )
                     }
                   </Field>
-
                   <Button
                     type='submit'
                     color='teal'

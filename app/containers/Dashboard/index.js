@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
+import { useMountReducer } from 'Helpers/hooks'
+
+import reducer from './reducers'
 import EmployeeDashboard from './components/Employee'
 import NavButton from './components/NavButton'
 
 export const Context = React.createContext({})
 
 const Dashboard = () => {
+  useMountReducer('containerDashboard', reducer)
+
   const [profile, setProfile] = useState({
     name: null,
     role: null
