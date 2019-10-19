@@ -19,16 +19,6 @@ export const checkInSelector = () => createSelector(
   }
 )
 
-export const storeInfoRawSelector = () => createSelector(
-  containerDashboardRedux(),
-  s => s ? s.storeInfo : { rows: [], count: 0 }
-)
-
-export const storeInfoSelector = () => createSelector(
-  storeInfoRawSelector(),
-  s => s.rows ? s.rows[0] : {}
-)
-
 export const isLoadingSelector = () => createSelector(
   containerDashboardRedux(),
   s => s ? s.isLoading : false

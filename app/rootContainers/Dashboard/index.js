@@ -5,15 +5,17 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 import cx from 'classnames'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { Switch, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
 import RouteWithSubroutes from 'Components/RouteWithSubRoutes'
-import { REDIRECT_ACTION, TOAST_ACTION } from 'App/appReducer'
+import { useMountReducer } from 'Helpers/hooks'
+import { REDIRECT_ACTION } from 'App/appReducer'
 
-import { redirectSelector, toastSelector } from './selector'
+import { redirectSelector } from './selectors'
+import reducer from './reducers'
 import NavHead from './components/NavHead.js'
 import Context from './context'
 
@@ -37,12 +39,12 @@ const LoadDashboard = lazy(() => import('Containers/Dashboard'
 )
 
 const DashboardRoot = ({ routes, match, history }) => {
+  useMountReducer('rootContainersDashboard', reducer)
   const dispatch = useDispatch()
-  const { redirect, toastObj } = useSelector(
+  const { redirect } = useSelector(
     createStructuredSelector(
       {
-        redirect: redirectSelector(),
-        toastObj: toastSelector()
+        redirect: redirectSelector()
       }
     )
   )
@@ -76,24 +78,6 @@ const DashboardRoot = ({ routes, match, history }) => {
       dispatch(REDIRECT_ACTION(null))
     }
   }, [redirect])
-
-  useEffect(() => {
-    if (toastObj) {
-      const { type, message } = toastObj
-      switch (type) {
-        case 'success':
-          toast.success(message)
-          break
-        case 'error':
-          toast.error(message)
-          break
-        default:
-          toast.info(message)
-          break
-      }
-      dispatch(TOAST_ACTION(null))
-    }
-  }, [toastObj])
 
   return (
     <Context.Provider value={{ history, profile }}>

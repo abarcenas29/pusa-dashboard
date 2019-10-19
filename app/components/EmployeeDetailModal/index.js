@@ -1,32 +1,44 @@
 import React, { useRef } from 'react'
 import { Modal, Grid, Statistic } from 'semantic-ui-react'
 import { Marker, Circle } from 'react-leaflet'
+import dayjs from 'dayjs'
 import L from 'leaflet'
 
 import LeafletMap from 'Components/LeafletMap'
 
-const EmployeeDetailModal = ({ open, setOpen }) => {
+const EmployeeDetailModal = ({
+  open,
+  setOpen,
+  storeInfo,
+  time_in,
+  time_out,
+  time_in_loc,
+  time_out_loc,
+  gross_pay
+}) => {
   const mapRef = useRef()
   const latlngExample = [14.6189866, 121.1001908]
 
-  const circlePoint = L.circle(latlngExample)
-  const isInCircleRaidus = Math.abs(
-    circlePoint.getLatLng().distanceTo([14.619415, 121.100240])
-  )
-
-  console.log(isInCircleRaidus, 'circle')
-  const mapPosition = latlngExample
+  const mapPosition = storeInfo || latlngExample
   const zoomValue = 17
-  const markerList = [
-    [14.619415, 121.100240]
-  ]
 
-  const markers = markerList.map((marker, index) => (
-    <Marker key={index} position={marker} />
-  ))
+  const locTimeIn = L
+    .latLng(storeInfo)
+    .distanceTo(JSON.parse(time_in_loc))
+
+  let locTimeOut = null
+  if (time_out_loc) {
+    locTimeOut = L
+      .latLng(storeInfo)
+      .distanceTo(JSON.parse(time_out_loc))
+  }
 
   return (
-    <Modal open={open} onClose={() => { setOpen(false) }} size='tiny'>
+    <Modal
+      open={open}
+      onClose={() => { setOpen(false) }}
+      size='tiny'
+    >
       <Modal.Content className='l-d-f l-fd-col'>
         <div>
           <LeafletMap
@@ -38,25 +50,48 @@ const EmployeeDetailModal = ({ open, setOpen }) => {
               center={mapPosition}
               radius={100}
             />
-            {markers}
+            {
+              time_in_loc &&
+                <Marker position={JSON.parse(time_in_loc)} />
+            }
+            {
+              time_out_loc &&
+                <Marker position={JSON.parse(time_out_loc)} />
+            }
           </LeafletMap>
         </div>
         <div className='l-mt1 l-mb1'>
           <Grid columns={2}>
             <Grid.Row>
               <Grid.Column textAlign='center'>
-                <Statistic size='mini'>
+                <Statistic size='mini' color={(locTimeIn > 300) ? 'red' : null}>
                   <Statistic.Value>
-                    October 16 2016 <br /> 08:00
+                    {
+                      dayjs(time_in).format('MMM DD, YYYY h:mm a')
+                    }
                   </Statistic.Value>
+                  {
+                    locTimeIn > 300 &&
+                      <Statistic.Label>Loggined in far-away</Statistic.Label>
+                  }
                   <Statistic.Label>Time-In</Statistic.Label>
                 </Statistic>
               </Grid.Column>
               <Grid.Column textAlign='center'>
-                <Statistic size='mini'>
+                <Statistic size='mini' color={locTimeOut > 300 ? 'red' : null}>
                   <Statistic.Value>
-                    October 16 2016 <br /> 17:00
+                    {
+                      time_out &&
+                      dayjs(time_out).format('MMM DD, YYYY h:mm a')
+                    }
+                    {
+                      !time_out && 'N/A'
+                    }
                   </Statistic.Value>
+                  {
+                    locTimeIn > 300 && locTimeOut &&
+                      <Statistic.Label>Loggined in far-away</Statistic.Label>
+                  }
                   <Statistic.Label>Time-Out</Statistic.Label>
                 </Statistic>
               </Grid.Column>
@@ -65,7 +100,12 @@ const EmployeeDetailModal = ({ open, setOpen }) => {
               <Grid.Column textAlign='center'>
                 <Statistic size='tiny'>
                   <Statistic.Value>
-                    521
+                    {
+                      gross_pay
+                    }
+                    {
+                      !gross_pay && 'N/A'
+                    }
                   </Statistic.Value>
                   <Statistic.Label>Total Payout</Statistic.Label>
                 </Statistic>

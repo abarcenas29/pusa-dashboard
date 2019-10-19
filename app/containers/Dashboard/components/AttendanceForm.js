@@ -37,15 +37,6 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             Time-out
           </Button>
         </li>
-        <li className='l-mb1'>
-          <Button
-            type='button'
-            compact
-            fluid
-          >
-            View Logs
-          </Button>
-        </li>
       </ul>
     </Form>
   )
