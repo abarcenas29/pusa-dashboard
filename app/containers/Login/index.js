@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, Fragment } from 'react'
 import {
   Button,
   Form,
   Grid,
   Header,
-  Message,
   Segment
 } from 'semantic-ui-react'
 import { createStructuredSelector } from 'reselect'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
-import { Form as ReactForm, Field } from 'react-final-form'
+import { Form as ReactForm, Field, FormSpy } from 'react-final-form'
 
 import { useMountReducer } from 'Helpers/hooks'
 
@@ -66,62 +65,73 @@ export default ({ history }) => {
   }, [])
 
   return (
-    <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 500, minWidth: 500 }}>
-        <Header as='h2' color='teal' textAlign='center'>
+    <Fragment>
+      <Grid
+        textAlign='center'
+        style={{ height: '100vh' }}
+        verticalAlign='middle'
+        stackable
+      >
+        <Grid.Column computer={5} mobile={15}>
+          <Header as='h2' color='teal' textAlign='center'>
           Pop-Store Attendance System & Payroll
-        </Header>
-        <ReactForm
-          onSubmit={onSubmit}
-        >
-          {
-            ({ handleSubmit }) => (
-              <Form size='large' onSubmit={handleSubmit}>
-                <Segment stacked>
-                  <Field name='email'>
-                    {
-                      props => (
-                        <Form.Input
-                          fluid
-                          icon='user'
-                          iconPosition='left'
-                          placeholder='E-mail address'
-                          {...props.input}
-                        />
-                      )
-                    }
-                  </Field>
-                  <Field name='password' type='password'>
-                    {
-                      props => (
-                        <Form.Input
-                          fluid
-                          icon='lock'
-                          iconPosition='left'
-                          placeholder='Password'
-                          {...props.input}
-                        />
-                      )
-                    }
-                  </Field>
-                  <Button
-                    type='submit'
-                    color='teal'
-                    fluid
-                    size='large'
-                  >
-                    Login
-                  </Button>
-                </Segment>
-              </Form>
-            )
-          }
-        </ReactForm>
-        <Message>
-          New to us? <a href='#'>Sign Up</a>
-        </Message>
-      </Grid.Column>
+          </Header>
+          <ReactForm
+            onSubmit={onSubmit}
+          >
+            {
+              ({ handleSubmit }) => (
+                <Form size='large' onSubmit={handleSubmit}>
+                  <Segment stacked>
+                    <Field name='email'>
+                      {
+                        props => (
+                          <Form.Input
+                            fluid
+                            icon='user'
+                            iconPosition='left'
+                            placeholder='E-mail address'
+                            {...props.input}
+                          />
+                        )
+                      }
+                    </Field>
+                    <Field name='password' type='password'>
+                      {
+                        props => (
+                          <Form.Input
+                            fluid
+                            icon='lock'
+                            iconPosition='left'
+                            placeholder='Password'
+                            {...props.input}
+                          />
+                        )
+                      }
+                    </Field>
+                    <FormSpy subscription={{ pristine: true }}>
+                      {
+                        ({ pristine }) => (
+                          <Button
+                            type='submit'
+                            color='teal'
+                            fluid
+                            size='large'
+                            disabled={pristine}
+                          >
+                            Login
+                          </Button>
+                        )
+                      }
+                    </FormSpy>
+                  </Segment>
+                </Form>
+              )
+            }
+          </ReactForm>
+        </Grid.Column>
+      </Grid>
       <ToastContainer />
-    </Grid>
+    </Fragment>
   )
 }
