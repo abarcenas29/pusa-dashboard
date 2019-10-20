@@ -11,7 +11,6 @@ import DashboardRootContext from 'RootContainers/Dashboard/context'
 import { useMountReducer } from 'Helpers/hooks'
 
 import Context from './context'
-import OwnerHeader from './components/OwnerHeader'
 import Table from './components/Table'
 import reducer from './reducer'
 
@@ -22,10 +21,6 @@ const UserList = ({ history }) => {
   return (
     <Context.Provider value={{ history, profile }}>
       <Container fluid className='l-pa1'>
-        {
-          profile.role === 'owner' &&
-            <OwnerHeader />
-        }
         <Segment>
           <Grid textAlign='left'>
             <Grid.Row columns={2}>

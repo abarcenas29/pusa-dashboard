@@ -11,11 +11,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
 import RouteWithSubroutes from 'Components/RouteWithSubRoutes'
-import { useMountReducer } from 'Helpers/hooks'
 import { REDIRECT_ACTION } from 'App/appReducer'
 
 import { redirectSelector } from './selectors'
-import reducer from './reducers'
 import NavHead from './components/NavHead.js'
 import Context from './context'
 
@@ -39,7 +37,6 @@ const LoadDashboard = lazy(() => import('Containers/Dashboard'
 )
 
 const DashboardRoot = ({ routes, match, history }) => {
-  useMountReducer('rootContainersDashboard', reducer)
   const dispatch = useDispatch()
   const { redirect } = useSelector(
     createStructuredSelector(

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 
 import { useMountReducer } from 'Helpers/hooks'
 
@@ -10,7 +10,7 @@ export const Context = React.createContext({})
 
 const Dashboard = () => {
   useMountReducer('containerDashboard', reducer)
-
+  const storeId = localStorage.getItem('storeId')
   const [profile, setProfile] = useState({
     name: null,
     role: null
@@ -30,8 +30,26 @@ const Dashboard = () => {
   return (
     <Context.Provider value={{ profile }}>
       {
-        (profile.role === 'admin' || profile.role === 'owner') &&
-          <NavButton />
+        profile.role === 'admin' &&
+          <Fragment>
+            <NavButton icon='building' label='Stores' to='/stores/list' />
+            <NavButton icon='users' label='Users' to='/users/list' />
+          </Fragment>
+      }
+      {
+        profile.role === 'owner' &&
+          <Fragment>
+            <NavButton
+              icon='building'
+              label='Store'
+              to={`/stores/${storeId}`}
+            />
+            <NavButton
+              icon='users'
+              label='Employees'
+              to='/employees/list'
+            />
+          </Fragment>
       }
       {
         profile.role === 'employee' &&

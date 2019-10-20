@@ -4,11 +4,16 @@ import { Form } from 'semantic-ui-react'
 
 import { Context } from './../index'
 
+const role = localStorage.getItem('role')
 const options = [
   { text: 'Admin', value: 'admin' },
-  { text: 'Owner', value: 'owner' },
-  { text: 'Employee', value: 'employee' }
+  { text: 'Owner', value: 'owner' }
 ]
+
+if (role !== 'admin') {
+  options.push(
+    { text: 'Employee', value: 'employee' })
+}
 
 const UserForm = ({ handleSubmit, form }) => {
   const storeId = localStorage.getItem('store')

@@ -3,8 +3,9 @@ import { createSelector } from 'reselect'
 export const appRedux = () => s =>
   s.appReducer
 
-export const dashboardRedux = () => s =>
-  s.rootContainersDashboard
+export const dashboardRedux = () => s => {
+  return s.rootContainersDashboard
+}
 
 export const rawStoreInfoSelector = () => createSelector(
   dashboardRedux(),
