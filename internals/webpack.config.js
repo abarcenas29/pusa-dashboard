@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoPrefixer = require('autoprefixer')
 const cssnano = require('cssnano')
+const Workbox = require('workbox-webpack-plugin')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = (env, options) => {
@@ -117,6 +118,49 @@ module.exports = (env, options) => {
         }
       ]
     }
+  }
+
+  if (isDevMode) {
+    config.plugins.push(new Workbox.GenerateSW({
+      clientsClaim: true,
+      importWorkboxFrom: 'cdn',
+      exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+      skipWaiting: true,
+      swDest: 'sw.js',
+      navigateFallback: '/index.html',
+      runtimeCaching: [
+        {
+          urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'images'
+          }
+        },
+        {
+          urlPattern: /\.(?:js|css)$/,
+          handler: 'staleWhileRevalidate',
+          options: {
+            cacheName: 'pusa',
+            expiration: {
+              maxEntries: 5,
+              maxAgeSeconds: 60
+            }
+          }
+        },
+        {
+          urlPattern: `${process.env.API_URL}/*`,
+          handler: 'staleWhileRevalidate',
+          options: {
+            cacheName: 'pusee',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 300
+            },
+            cacheableResponse: { statuses: [0, 200] }
+          }
+        }
+      ]
+    }))
   }
 
   /*
