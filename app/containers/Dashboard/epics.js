@@ -8,13 +8,11 @@ import { asyncErrorHandling, responseHandling } from 'Helpers/epics'
 
 import {
   CHECK_IN_REQUEST,
-  STORE_INFO_REQUEST,
   SUBMIT_CHECK_IN_REQUEST
 } from './constants'
 import {
   CHECK_IN_REQUEST_ACTION,
   CHECK_IN_SUCCESS_ACTION,
-  STORE_INFO_SUCCESS_ACTION,
   SUBMIT_CHECK_IN_SUCCESS_ACTION
 } from './reducers'
 
@@ -64,27 +62,7 @@ export const checkInEpic = (a$, s$, d$) =>
     responseHandling(map, res => CHECK_IN_SUCCESS_ACTION(res))
   )
 
-export const storeInfoEpic = (a$, s$, d$) =>
-  a$.pipe(
-    ofType(STORE_INFO_REQUEST),
-    switchMap(
-      ({ payload }) =>
-        d$.ajaxPOST(
-          `${API_URL}stores`,
-          JSON.stringify({
-            action: 'query',
-            where: {
-              uid: payload
-            }
-          }),
-          CONTENT_TYPE
-        ).pipe(asyncErrorHandling)
-    ),
-    responseHandling(map, res => STORE_INFO_SUCCESS_ACTION(res))
-  )
-
 export default combineEpics(
   checkInEpic,
-  storeInfoEpic,
   submitCheckInEpic
 )

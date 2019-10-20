@@ -3,7 +3,6 @@ import { Form as FinalForm } from 'react-final-form'
 import { createStructuredSelector } from 'reselect'
 import { Marker, Circle } from 'react-leaflet'
 import {
-  Button,
   Grid,
   Header,
   Segment,
@@ -15,13 +14,18 @@ import dayjs from 'dayjs'
 import LeafletMap from 'Components/LeafletMap'
 
 import {
+  STORE_INFO_REQUEST_ACTION
+} from 'RootContainers/Dashboard/reducers'
+import {
+  storeInfoSelector
+} from 'RootContainers/Dashboard/selectors'
+
+import {
   CHECK_IN_REQUEST_ACTION,
-  STORE_INFO_REQUEST_ACTION,
   SUBMIT_CHECK_IN_REQUEST_ACTION
 } from './../reducers'
 import {
   checkInSelector,
-  storeInfoSelector,
   timeLogSelector
 } from './../selectors'
 import AttendanceForm from './AttendanceForm'
@@ -188,32 +192,6 @@ const Employee = () => {
               component={AttendanceForm}
             />
           </Segment>
-        </Grid.Column>
-        <Grid.Column computer={7}>
-          <Grid.Column computer={7}>
-            <Segment>
-              <Header>Payroll</Header>
-              <Table compact striped>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Cut-off</Table.HeaderCell>
-                    <Table.HeaderCell>Amount</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell>September 26 - October 11 2019</Table.Cell>
-                    <Table.Cell>9999.99</Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell>October 12 - October 25 2019</Table.Cell>
-                    <Table.Cell>9999.99</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-              <Button compact fluid>View Payroll</Button>
-            </Segment>
-          </Grid.Column>
         </Grid.Column>
       </Grid.Row>
     </Grid>
