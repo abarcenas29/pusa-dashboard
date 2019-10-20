@@ -140,60 +140,58 @@ const Employee = () => {
   }
 
   return (
-    <Grid container centered>
-      <Grid.Row>
-        <Grid.Column computer={7}>
-          <Segment>
-            <Header>Attendance</Header>
-            <LeafletMap
-              onClick={() => {}}
-              ref={mapRef}
-              zoom={15}
+    <Grid centered fluid className='l-w-100'>
+      <Grid.Column mobile={15} computer={7}>
+        <Segment>
+          <Header>Attendance</Header>
+          <LeafletMap
+            onClick={() => {}}
+            ref={mapRef}
+            zoom={15}
+            center={storeCoord}
+            height={250}
+          >
+            {
+              markers.map((m, i) => (
+                <Marker key={i} position={m} />
+              ))
+            }
+            {
+              storeCoord &&
+                <Marker
+                  position={{ lat: storeCoord[0], lng: storeCoord[1] }}
+                />
+            }
+            <Circle
               center={storeCoord}
-              height={250}
-            >
-              {
-                markers.map((m, i) => (
-                  <Marker key={i} position={m} />
-                ))
-              }
-              {
-                storeCoord &&
-                  <Marker
-                    position={{ lat: storeCoord[0], lng: storeCoord[1] }}
-                  />
-              }
-              <Circle
-                center={storeCoord}
-                radius={distanceTolerance}
-              />
-            </LeafletMap>
-            {
-              checkIn.length > 0 &&
-                <Table compact striped>
-                  <Table.Body>
-                    {
-                      checkIn[0].date &&
-                        <CheckInRow {...checkIn[0]} />
-                    }
-                    {
-                      checkIn[1].date &&
-                        <CheckInRow {...checkIn[1]} />
-                    }
-                  </Table.Body>
-                </Table>
-            }
-            {
-              checkIn.length === 0 &&
-                <br />
-            }
-            <FinalForm
-              onSubmit={onSubmit}
-              component={AttendanceForm}
+              radius={distanceTolerance}
             />
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
+          </LeafletMap>
+          {
+            checkIn.length > 0 &&
+              <Table compact striped>
+                <Table.Body>
+                  {
+                    checkIn[0].date &&
+                      <CheckInRow {...checkIn[0]} />
+                  }
+                  {
+                    checkIn[1].date &&
+                      <CheckInRow {...checkIn[1]} />
+                  }
+                </Table.Body>
+              </Table>
+          }
+          {
+            checkIn.length === 0 &&
+              <br />
+          }
+          <FinalForm
+            onSubmit={onSubmit}
+            component={AttendanceForm}
+          />
+        </Segment>
+      </Grid.Column>
     </Grid>
   )
 }
