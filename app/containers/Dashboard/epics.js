@@ -8,11 +8,13 @@ import { asyncErrorHandling, responseHandling } from 'Helpers/epics'
 
 import {
   CHECK_IN_REQUEST,
+  LOG_LIST_REQUEST,
   SUBMIT_CHECK_IN_REQUEST
 } from './constants'
 import {
   CHECK_IN_REQUEST_ACTION,
   CHECK_IN_SUCCESS_ACTION,
+  LOG_LIST_SUCCESS_ACTION,
   SUBMIT_CHECK_IN_SUCCESS_ACTION
 } from './reducers'
 
@@ -62,7 +64,27 @@ export const checkInEpic = (a$, s$, d$) =>
     responseHandling(map, res => CHECK_IN_SUCCESS_ACTION(res))
   )
 
+export const timeLogListEpic = (a$, s$, d$) =>
+  a$.pipe(
+    ofType(LOG_LIST_REQUEST),
+    switchMap(({ payload }) =>
+      d$.ajaxPOST(
+        `${API_URL}time`,
+        JSON.stringify({
+          action: 'query',
+          time_in: dayjs().startOf('month').toISOString(),
+          where: {
+            employeeUid: payload
+          }
+        }),
+        CONTENT_TYPE
+      ).pipe(asyncErrorHandling)
+    ),
+    responseHandling(map, res => LOG_LIST_SUCCESS_ACTION(res))
+  )
+
 export default combineEpics(
   checkInEpic,
-  submitCheckInEpic
+  submitCheckInEpic,
+  timeLogListEpic
 )

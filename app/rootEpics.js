@@ -13,8 +13,8 @@ import EmployeeFormEpics from 'Containers/EmployeeForm/epics'
 import DashboardRootEpics from 'RootContainers/Dashboard/epics'
 
 export default combineEpics(
-  DashboardEpics,
   DashboardRootEpics,
+  DashboardEpics,
   EmployeeFormEpics,
   LoginEpics,
   SearchAddressModalEpics,

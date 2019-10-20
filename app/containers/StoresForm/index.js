@@ -5,13 +5,11 @@ import { createStructuredSelector } from 'reselect'
 import {
   Container,
   Grid,
-  Image,
   Header,
   Segment
 } from 'semantic-ui-react'
 
 import CoordSearchModal from 'Components/CoordSearchModal'
-import FileUploadModal from 'Components/FileUploadModal'
 import { useMountReducer } from 'Helpers/hooks'
 
 import StoreForm from './components/Form'
@@ -39,8 +37,6 @@ const OrganizationForm = ({ location, match, ...props }) => {
     })
   )
 
-  const [croppedImage, setCroppedImage] = useState(null)
-  const [showFileModal, setShowFileModal] = useState(false)
   const [showCoordSearchModal, setShowCoordSearchModal] = useState(false)
   const [coords, setCoords] = useState({})
 
@@ -80,16 +76,7 @@ const OrganizationForm = ({ location, match, ...props }) => {
       <Container className='l-mt2'>
         <Segment padded='very'>
           <Grid relaxed divided stackable>
-            <Grid.Column width={4}>
-              <Image
-                onClick={() => setShowFileModal(true)}
-                centered
-                circular
-                src={croppedImage || 'https://via.placeholder.com/250/250'}
-                size='medium'
-              />
-            </Grid.Column>
-            <Grid.Column width={12} textAlign='left'>
+            <Grid.Column textAlign='left'>
               <Header as='h2' textAlign='right'>
                 {
                   id && 'Update Store'
@@ -106,11 +93,6 @@ const OrganizationForm = ({ location, match, ...props }) => {
             </Grid.Column>
           </Grid>
         </Segment>
-        <FileUploadModal
-          setCroppedImage={setCroppedImage}
-          open={showFileModal}
-          setOpen={setShowFileModal}
-        />
         <CoordSearchModal
           open={showCoordSearchModal}
           setOpen={setShowCoordSearchModal}

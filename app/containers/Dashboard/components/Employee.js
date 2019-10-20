@@ -6,6 +6,7 @@ import {
   Grid,
   Header,
   Segment,
+  Statistic,
   Table
 } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,11 +23,13 @@ import {
 
 import {
   CHECK_IN_REQUEST_ACTION,
+  LOG_LIST_REQUEST_ACTION,
   SUBMIT_CHECK_IN_REQUEST_ACTION
 } from './../reducers'
 import {
   checkInSelector,
-  timeLogSelector
+  timeLogSelector,
+  totalPayLogs
 } from './../selectors'
 import AttendanceForm from './AttendanceForm'
 
@@ -38,10 +41,11 @@ const Employee = () => {
   const [storeCoord, setStoreCoord] = useState([51.505, -0.09])
   const [markers, setMarkers] = useState([])
 
-  const { checkIn, storeInfo, timeLog } = useSelector(createStructuredSelector({
+  const { checkIn, storeInfo, timeLog, totalPay } = useSelector(createStructuredSelector({
     checkIn: checkInSelector(),
     storeInfo: storeInfoSelector(),
-    timeLog: timeLogSelector()
+    timeLog: timeLogSelector(),
+    totalPay: totalPayLogs()
   }))
 
   const onSubmit = values => {
@@ -89,6 +93,7 @@ const Employee = () => {
     const storeId = localStorage.getItem('storeId')
     dispatch(CHECK_IN_REQUEST_ACTION())
     dispatch(STORE_INFO_REQUEST_ACTION(storeId))
+    dispatch(LOG_LIST_REQUEST_ACTION(localStorage.getItem('employee')))
   }, [])
 
   useEffect(() => {
@@ -168,6 +173,15 @@ const Employee = () => {
                 radius={distanceTolerance}
               />
             </LeafletMap>
+            {
+              totalPay &&
+                <div className='l-d-f l-jc-cen'>
+                  <Statistic>
+                    <Statistic.Value>{totalPay}</Statistic.Value>
+                    <Statistic.Label>Month Payout</Statistic.Label>
+                  </Statistic>
+                </div>
+            }
             {
               checkIn.length > 0 &&
                 <Table compact striped>

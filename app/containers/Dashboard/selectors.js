@@ -19,6 +19,25 @@ export const checkInSelector = () => createSelector(
   }
 )
 
+export const totalRawPayLogs = () => createSelector(
+  containerDashboardRedux(),
+  s => s ? s.logs : { rows: [], count: 0 }
+)
+
+export const totalPayLogs = () => createSelector(
+  totalRawPayLogs(),
+  s => {
+    if (s.rows.length > 0) {
+      return s
+        .rows
+        .filter(i => i.gross_pay)
+        .map(i => i.gross_pay)
+        .reduce((a, c) => a + c)
+    }
+    return null
+  }
+)
+
 export const isLoadingSelector = () => createSelector(
   containerDashboardRedux(),
   s => s ? s.isLoading : false

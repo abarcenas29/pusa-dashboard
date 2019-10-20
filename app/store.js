@@ -4,6 +4,8 @@ import createEpicMiddleware, { hotReloadEpic } from './epics'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import appReducer from './appReducer.js'
+import rootContainersDashboard from 'RootContainers/Dashboard/reducers'
+
 export const API_ERROR_FAILOVER = 'App/API_ERROR_FAILOVER'
 
 export const API_URL = process.env.API_URL
@@ -11,7 +13,8 @@ export const UPLOAD_URL = process.env.UPLOAD_URL
 
 // Define the Reducers that will always be present in the application
 const staticReducers = {
-  appReducer
+  appReducer,
+  rootContainersDashboard
 }
 
 const reduxObservableMiddleWare = createEpicMiddleware({
