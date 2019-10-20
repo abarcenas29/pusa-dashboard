@@ -8,12 +8,14 @@ import StoresListEpics from 'Containers/StoresList/epics'
 import UserFormEpics from 'Containers/UserForm/epics'
 import UserListEpics from 'Containers/UserList/epics'
 import TimeLogsEpics from 'Containers/Logs/epics'
+import EmployeeFormEpics from 'Containers/EmployeeForm/epics'
 
 import DashboardRootEpics from 'RootContainers/Dashboard/epics'
 
 export default combineEpics(
   DashboardEpics,
   DashboardRootEpics,
+  EmployeeFormEpics,
   LoginEpics,
   SearchAddressModalEpics,
   StoresFormEpics,

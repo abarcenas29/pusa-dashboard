@@ -16,16 +16,16 @@ import {
 import { listSelector } from './../selectors'
 import Context from './../context'
 
-const TableItem = ({
-  uid,
-  address,
-  email,
-  first_name,
-  last_name,
-  middle_name
-}) => {
+const TableItem = props => {
   const { history } = useContext(Context)
-
+  const {
+    address,
+    email,
+    first_name,
+    last_name,
+    middle_name,
+    uid
+  } = props
   return (
     <Table.Row>
       <Table.Cell singleLine>
@@ -43,6 +43,19 @@ const TableItem = ({
             link
             onClick={() => history.push(`/users/${uid}`)}
           />
+          {
+            localStorage.getItem('role') === 'owner' &&
+              <Icon
+                name='expand'
+                inverted
+                bordered
+                circular
+                link
+                onClick={() => {
+                  history.push(`/employees/detail/${uid}`)
+                }}
+              />
+          }
         </div>
       </Table.Cell>
     </Table.Row>

@@ -1,78 +1,128 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
+import L from 'leaflet'
+import dayjs from 'dayjs'
 import {
   Table,
-  Button,
-  Pagination
+  Button
 } from 'semantic-ui-react'
 
 import Context from './../context'
 
-const EmployeTable = () => {
-  const { setShoeEmployeeModal } = useContext(Context)
-  const [rowIndex, setRowIndex] = useState(null)
+const EmployeTable = ({ logs, loc }) => {
+  const { setShoeEmployeeModal, setRowIndex } = useContext(Context)
 
+  const total = logs
+    .filter(i => i.gross_pay)
+    .map(i => i.gross_pay)
+    .reduce((a, c) => a + c)
   return (
     <Table padded size='large' striped selectable>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell singleLine>
-              Time In
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-              Time Out
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-              Hours
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-              Pay
-          </Table.HeaderCell>
-          <Table.HeaderCell />
+          <Table.HeaderCell>Shift Start</Table.HeaderCell>
+          <Table.HeaderCell>Shift End</Table.HeaderCell>
+          <Table.HeaderCell>Time In</Table.HeaderCell>
+          <Table.HeaderCell>Time Out</Table.HeaderCell>
+          <Table.HeaderCell>Late Time</Table.HeaderCell>
+          <Table.HeaderCell>Work Time</Table.HeaderCell>
+          <Table.HeaderCell>Rate</Table.HeaderCell>
+          <Table.HeaderCell>Gross Pay</Table.HeaderCell>
+          <Table.HeaderCell>Location</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
       <Table.Body>
-        <Table.Row active={rowIndex === 0}>
-          <Table.Cell>October 16, 2016 08:00:00</Table.Cell>
-          <Table.Cell>October 16, 2016 17:00:00</Table.Cell>
-          <Table.Cell>9</Table.Cell>
-          <Table.Cell>520</Table.Cell>
-          <Table.Cell textAlign='center'>
-            <Button
-              onClick={() => {
-                setShoeEmployeeModal(true)
-                setRowIndex(0)
-              }}
-              secondary={rowIndex === 0}
-              icon='expand'
-            />
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row active={rowIndex === 1}>
-          <Table.Cell>October 16, 2016 08:00:00</Table.Cell>
-          <Table.Cell>October 16, 2016 17:00:00</Table.Cell>
-          <Table.Cell>9</Table.Cell>
-          <Table.Cell>520</Table.Cell>
-          <Table.Cell textAlign='center'>
-            <Button
-              onClick={() => {
-                setShoeEmployeeModal(true)
-                setRowIndex(1)
-              }}
-              secondary={rowIndex === 1}
-              icon='expand'
-            />
-          </Table.Cell>
-        </Table.Row>
+        {
+          logs.map((r, i) => {
+            const { time_in_loc, time_out_loc } = r
+
+            const locTimeIn = L
+              .latLng(loc)
+              .distanceTo(JSON.parse(time_in_loc))
+            let locTimeOut = null
+
+            if (time_out_loc) {
+              locTimeOut = L
+                .latLng(loc)
+                .distanceTo(JSON.parse(time_out_loc))
+            }
+            return (
+              <Table.Row
+                key={i}
+                negative={locTimeIn > 300 || locTimeOut > 300}
+              >
+                <Table.Cell>
+                  {dayjs(r.shift_start).format('MMM DD, YYYY h:mm a')}
+                </Table.Cell>
+                <Table.Cell>
+                  {dayjs(r.shift_end).format('MMM DD, YYYY h:mm a')}
+                </Table.Cell>
+                <Table.Cell>
+                  {dayjs(r.time_in).format('MMM DD, YYYY h:mm a')}
+                </Table.Cell>
+                <Table.Cell>
+                  {
+                    r.time_out &&
+                      dayjs(r.time_out).format('MMM DD, YYYY h:mm a')
+                  }
+                  {
+                    !r.time_out &&
+                      'N/A'
+                  }
+                </Table.Cell>
+                <Table.Cell>
+                  {
+                    r.late_time &&
+                      r.late_time.toFixed(2)
+                  }
+                  {
+                    !r.late_time &&
+                      'N/A'
+                  }
+                </Table.Cell>
+                <Table.Cell>
+                  {
+                    r.work_time &&
+                      r.work_time.toFixed(2)
+                  }
+                  {
+                    !r.work_time &&
+                      'N/A'
+                  }
+                </Table.Cell>
+                <Table.Cell>
+                  {r.rate}
+                </Table.Cell>
+                <Table.Cell>
+                  {
+                    r.gross_pay &&
+                      r.gross_pay.toFixed(2)
+                  }
+                  {
+                    !r.gross_pay &&
+                      'N/A'
+                  }
+                </Table.Cell>
+                <Table.Cell>
+                  <Button
+                    negative={(locTimeIn > 300) || (locTimeOut > 300)}
+                    onClick={() => {
+                      setShoeEmployeeModal(true)
+                      setRowIndex(r)
+                    }}
+                    icon='expand'
+                  />
+                </Table.Cell>
+              </Table.Row>
+            )
+          })
+        }
       </Table.Body>
 
       <Table.Footer>
         <Table.Row textAlign='right'>
           <Table.HeaderCell colSpan='1' style={{ textAlign: 'left' }}>
-            Total: 9,999.99
-          </Table.HeaderCell>
-          <Table.HeaderCell colSpan='4'>
-            <Pagination defaultActivePage={5} totalPages={10} />
+            Total: {total.toFixed(2)}
           </Table.HeaderCell>
         </Table.Row>
       </Table.Footer>
