@@ -41,3 +41,24 @@ if (env === 'development') {
 } else {
   ReactDOM.render(<App />, $app)
 }
+
+if ('serviceWorker' in navigator) {
+  const buildType = process.env.NODE_ENV
+  if (buildType === 'production' || buildType === 'staging') {
+    // eslint-disable-next-line
+    console.log('service worker activated')
+    navigator.serviceWorker.register('./sw.js')
+  } else {
+    // eslint-disable-next-line
+    console.log('removing service worker')
+    navigator
+      .serviceWorker
+      .getRegistrations()
+      .then(function (registrations) {
+        // eslint-disable-next-line
+        for (const registration of registrations) {
+          registration.unregister()
+        }
+      })
+  }
+}
