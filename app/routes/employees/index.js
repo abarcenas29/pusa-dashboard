@@ -11,7 +11,7 @@ export default [
     exact: true
   },
   {
-    path: '/employees/detail',
+    path: '/employees/detail/:id',
     component: LoadEmployeeForm,
     exact: true
   }

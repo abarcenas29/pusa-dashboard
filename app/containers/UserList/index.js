@@ -17,7 +17,6 @@ import reducer from './reducer'
 
 const UserList = ({ history }) => {
   useMountReducer('containerUserList', reducer)
-
   const { profile } = useContext(DashboardRootContext)
 
   return (

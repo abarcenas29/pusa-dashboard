@@ -1,8 +1,5 @@
 import React, { useContext, useCallback } from 'react'
-import {
-  Image,
-  Menu
-} from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 
 import Context from './../context'
 import AdminNavHead from './AdminNavHead'
@@ -48,13 +45,6 @@ const NavHead = () => {
             className='l-d-b'
           >
             <div className='l-d-f'>
-              <div className='l-d-f l-ai-cen l-pa1'>
-                <Image
-                  size='mini'
-                  circular
-                  src='https://via.placeholder.com/250/250'
-                />
-              </div>
               <div className='l-d-f l-ai-cen l-ml1 l-mr1'>
                 <div className='l-d-b'>
                   <div
