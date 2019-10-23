@@ -1,8 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Field } from 'react-final-form'
 import { Form } from 'semantic-ui-react'
-
-import { Context } from './../index'
 
 const role = localStorage.getItem('role')
 const options = [
@@ -17,7 +15,6 @@ if (role !== 'admin') {
 
 const UserForm = ({ handleSubmit, form }) => {
   const storeId = localStorage.getItem('store')
-  const { match } = useContext(Context)
 
   if (storeId) {
     form.change('type', 'employee')
@@ -86,14 +83,6 @@ const UserForm = ({ handleSubmit, form }) => {
             name='password'
           />
         </Form.Field>
-        <Form.Field>
-          <label>Repeat Password</label>
-          <Field
-            component='input'
-            placeholder='Password'
-            name='repeat_password'
-          />
-        </Form.Field>
       </Form.Group>
       {
         storeId &&
@@ -149,12 +138,6 @@ const UserForm = ({ handleSubmit, form }) => {
         }
       </Form.Group>
       <div className='l-d-f l-jc-sb'>
-        {
-          match.path !== '/users/create' &&
-            <Form.Button type='button' size='big' negative>
-              Delete
-            </Form.Button>
-        }
         <Form.Button type='Submit' size='big' primary>
           Submit
         </Form.Button>
