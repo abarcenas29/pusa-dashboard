@@ -28,11 +28,12 @@ export const totalPayLogs = () => createSelector(
   totalRawPayLogs(),
   s => {
     if (s.rows.length > 0) {
-      return s
+      const filtered_args = s
         .rows
         .filter(i => i.gross_pay)
         .map(i => i.gross_pay)
-        .reduce((a, c) => a + c)
+      if (filtered_args.length > 0) return filtered_args.reduce((a, c) => a + c)
+      return null
     }
     return null
   }
