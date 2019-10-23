@@ -10,11 +10,12 @@ import Context from './../context'
 
 const EmployeTable = ({ logs, loc }) => {
   const { setShoeEmployeeModal, setRowIndex } = useContext(Context)
-
-  const total = logs
-    .filter(i => i.gross_pay)
-    .map(i => i.gross_pay)
-    .reduce((a, c) => a + c)
+  let total = 0
+  if (logs.length > 0) {
+    total = logs.filter(i => i.gross_pay)
+      .map(i => i.gross_pay)
+    total = (total.length > 0) ? total.reduce((a, c) => a + c) : 0
+  }
   return (
     <Table padded size='large' striped selectable>
       <Table.Header>

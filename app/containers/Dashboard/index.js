@@ -10,7 +10,7 @@ export const Context = React.createContext({})
 
 const Dashboard = () => {
   useMountReducer('containerDashboard', reducer)
-  const storeId = localStorage.getItem('storeId')
+  const storeId = localStorage.getItem('store')
   const [profile, setProfile] = useState({
     name: null,
     role: null
