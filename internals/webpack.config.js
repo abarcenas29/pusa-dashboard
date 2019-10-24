@@ -156,7 +156,7 @@ module.exports = (env, options) => {
           urlPattern: `${process.env.API_URL}/*`,
           handler: 'staleWhileRevalidate',
           options: {
-            cacheName: 'pusee',
+            cacheName: 'pusa',
             expiration: {
               maxEntries: 50,
               maxAgeSeconds: 300
