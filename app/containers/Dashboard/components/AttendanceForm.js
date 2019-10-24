@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { createStructuredSelector } from 'reselect'
 import { Button, Form } from 'semantic-ui-react'
 import { useSelector } from 'react-redux'
@@ -14,6 +14,11 @@ const AttendanceForm = ({ handleSubmit, form }) => {
       isLoading: isLoadingSelector()
     })
   )
+
+  const captureCallback = useCallback(img => {
+    form.change('image', img)
+    form.submit()
+  }, [action])
 
   return (
     <Form onSubmit={handleSubmit} loading={isLoading}>
@@ -56,14 +61,7 @@ const AttendanceForm = ({ handleSubmit, form }) => {
           },
           size: 'tiny'
         }}
-        captureCallback={img => {
-          if (action === 'time-in') {
-            form.change('time_in_image', img)
-          } else {
-            form.change('time_out_image', img)
-          }
-          form.submit()
-        }}
+        captureCallback={captureCallback}
       />
     </Form>
   )

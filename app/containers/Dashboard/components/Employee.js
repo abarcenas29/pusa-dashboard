@@ -55,12 +55,14 @@ const Employee = () => {
         .getCurrentPosition(p => {
           const { coords: { latitude, longitude } } = p
           const { action } = values
+          const { image, ...rest } = values
 
           let newValues = {}
           switch (action) {
             case 'time-in':
               newValues = {
-                ...values,
+                ...rest,
+                time_in_image: image,
                 created_by: localStorage.getItem('id'),
                 employeeUid: localStorage.getItem('employee'),
                 time_in: new Date(),
@@ -69,7 +71,8 @@ const Employee = () => {
               break
             case 'time-out':
               newValues = {
-                ...values,
+                ...rest,
+                time_out_image: image,
                 time_out: new Date(),
                 time_out_loc: JSON.stringify({ lat: latitude, lng: longitude }),
                 options: {
@@ -80,6 +83,7 @@ const Employee = () => {
               }
               break
           }
+          console.log(newValues)
           dispatch(SUBMIT_CHECK_IN_REQUEST_ACTION(newValues))
         }, e => {
           console.log(e)
