@@ -51,7 +51,7 @@ const NavHead = () => {
                     className='f-bold f-italic'
                     style={{ marginBottom: 5 }}
                   >
-                    {profile.name}
+                    {`${profile.name} - ${profile.role}`}
                   </div>
                   <div>Logout</div>
                 </div>

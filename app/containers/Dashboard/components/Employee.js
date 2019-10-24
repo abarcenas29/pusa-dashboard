@@ -83,7 +83,6 @@ const Employee = () => {
               }
               break
           }
-          console.log(newValues)
           dispatch(SUBMIT_CHECK_IN_REQUEST_ACTION(newValues))
         }, e => {
           console.log(e)
