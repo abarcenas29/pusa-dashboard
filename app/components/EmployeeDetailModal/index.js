@@ -14,6 +14,8 @@ const EmployeeDetailModal = ({
   time_out,
   time_in_loc,
   time_out_loc,
+  time_in_image,
+  time_out_image,
   gross_pay
 }) => {
   const mapRef = useRef()
@@ -62,6 +64,14 @@ const EmployeeDetailModal = ({
         </div>
         <div className='l-mt1 l-mb1'>
           <Grid columns={2}>
+            <Grid.Row>
+              <Grid.Column textAlign='center'>
+                <img src={time_in_image} />
+              </Grid.Column>
+              <Grid.Column textAlign='center'>
+                <img src={time_out_image} />
+              </Grid.Column>
+            </Grid.Row>
             <Grid.Row>
               <Grid.Column textAlign='center'>
                 <Statistic size='mini' color={(locTimeIn > 300) ? 'red' : null}>

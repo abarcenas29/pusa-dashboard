@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createStructuredSelector } from 'reselect'
 import { Button, Form } from 'semantic-ui-react'
 import { useSelector } from 'react-redux'
 
 import { isLoadingSelector } from './../selectors'
+import WebCamModal from './WebCamModal'
 
 const AttendanceForm = ({ handleSubmit, form }) => {
+  const { action } = form.getState().values
+  const [showWebcamModal, setShowWebcamModal] = useState(false)
   const { isLoading } = useSelector(
     createStructuredSelector({
       isLoading: isLoadingSelector()
@@ -22,6 +25,7 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             primary
             onClick={() => {
               form.change('action', 'time-in')
+              setShowWebcamModal(true)
             }}
             type='button'
           >
@@ -36,6 +40,7 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             negative
             onClick={() => {
               form.change('action', 'time-out')
+              setShowWebcamModal(true)
             }}
             type='button'
           >
@@ -43,6 +48,23 @@ const AttendanceForm = ({ handleSubmit, form }) => {
           </Button>
         </li>
       </ul>
+      <WebCamModal
+        modalOptions={{
+          open: showWebcamModal,
+          onClose: () => {
+            setShowWebcamModal(false)
+          },
+          size: 'tiny'
+        }}
+        captureCallback={img => {
+          if (action === 'time-in') {
+            form.change('time_in_image', img)
+          } else {
+            form.change('time_out_image', img)
+          }
+          form.submit()
+        }}
+      />
     </Form>
   )
 }
