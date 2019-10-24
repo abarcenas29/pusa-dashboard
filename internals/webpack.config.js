@@ -52,6 +52,11 @@ module.exports = (env, options) => {
         {
           from: path.resolve('app', 'assets'),
           to: 'assets'
+        },
+        path.resolve('app', 'manifest.json'),
+        {
+          from: path.resolve('app', 'images'),
+          to: 'images'
         }
       ]),
       new DotenvWebpack()
@@ -115,18 +120,7 @@ module.exports = (env, options) => {
               }
             }
           ]
-        },
-        new CopyWebpackPlugin([
-          {
-            from: path.resolve('app', 'assets'),
-            to: 'assets'
-          },
-          path.resolve('app', 'manifest.json'),
-          {
-            from: path.resolve('app', 'images'),
-            to: 'images'
-          }
-        ])
+        }
       ]
     }
   }
