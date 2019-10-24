@@ -115,7 +115,18 @@ module.exports = (env, options) => {
               }
             }
           ]
-        }
+        },
+        new CopyWebpackPlugin([
+          {
+            from: path.resolve('app', 'assets'),
+            to: 'assets'
+          },
+          path.resolve('app', 'manifest.json'),
+          {
+            from: path.resolve('app', 'images'),
+            to: 'images'
+          }
+        ])
       ]
     }
   }
