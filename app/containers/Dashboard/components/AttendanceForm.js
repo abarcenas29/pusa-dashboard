@@ -11,6 +11,7 @@ const AttendanceForm = ({ handleSubmit, form }) => {
       isLoading: isLoadingSelector()
     })
   )
+
   return (
     <Form onSubmit={handleSubmit} loading={isLoading}>
       <ul className='l-ma0 l-pa0 l-lst-n'>
@@ -19,8 +20,10 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             compact
             fluid
             primary
-            onClick={() => form.change('action', 'time-in')}
-            type='submit'
+            onClick={() => {
+              form.change('action', 'time-in')
+            }}
+            type='button'
           >
             Time-In
           </Button>
@@ -31,8 +34,10 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             fluid
             primary
             negative
-            onClick={() => form.change('action', 'time-out')}
-            type='submit'
+            onClick={() => {
+              form.change('action', 'time-out')
+            }}
+            type='button'
           >
             Time-out
           </Button>
