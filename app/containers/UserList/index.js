@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import {
   Button,
   Container,
+  Header,
   Grid,
   Input,
   Segment
@@ -14,7 +15,7 @@ import Context from './context'
 import Table from './components/Table'
 import reducer from './reducer'
 
-const UserList = ({ history }) => {
+const UserList = ({ history, match }) => {
   useMountReducer('containerUserList', reducer)
   const { profile } = useContext(DashboardRootContext)
 
@@ -25,7 +26,16 @@ const UserList = ({ history }) => {
           <Grid textAlign='left'>
             <Grid.Row columns={2}>
               <Grid.Column textAlign='left'>
-                <Input fluid icon='search' placeholder='Search Users' />
+                <Header as='h2'>
+                  {
+                    match.path === '/employees/list' &&
+                    'Employee List'
+                  }
+                  {
+                    match.path === '/users/list' &&
+                    'User List'
+                  }
+                </Header>
               </Grid.Column>
               <Grid.Column textAlign='right'>
                 <Button

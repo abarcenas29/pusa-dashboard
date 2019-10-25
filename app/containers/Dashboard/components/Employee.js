@@ -14,6 +14,7 @@ import L from 'leaflet'
 import dayjs from 'dayjs'
 import LeafletMap from 'Components/LeafletMap'
 
+import { MAP_RADIUS } from 'App/constants'
 import {
   STORE_INFO_REQUEST_ACTION
 } from 'RootContainers/Dashboard/reducers'
@@ -37,7 +38,6 @@ const Employee = () => {
   const mapRef = useRef()
   const dispatch = useDispatch()
 
-  const [distanceTolerance] = useState(300)
   const [storeCoord, setStoreCoord] = useState([51.505, -0.09])
   const [markers, setMarkers] = useState([])
 
@@ -132,7 +132,7 @@ const Employee = () => {
       .distanceTo({ lat, lng })
 
     return (
-      <Table.Row negative={distance > distanceTolerance}>
+      <Table.Row negative={distance > MAP_RADIUS}>
         <Table.Cell>{props.type}</Table.Cell>
         <Table.Cell>
           {
@@ -140,7 +140,7 @@ const Employee = () => {
           }
         </Table.Cell>
         {
-          distance > distanceTolerance &&
+          distance > MAP_RADIUS &&
             <Table.Cell>Logged Too Far Away</Table.Cell>
         }
       </Table.Row>
@@ -151,7 +151,7 @@ const Employee = () => {
     <Grid centered fluid className='l-w-100'>
       <Grid.Column mobile={15} computer={7}>
         <Segment>
-          <Header>Attendance</Header>
+          <Header>Employee Attendance Dashboard</Header>
           <LeafletMap
             onClick={() => {}}
             ref={mapRef}
@@ -159,21 +159,6 @@ const Employee = () => {
             center={storeCoord}
             height={250}
           >
-            {
-              checkIn.length > 0 &&
-                <Table compact striped>
-                  <Table.Body>
-                    {
-                      checkIn[0].date &&
-                        <CheckInRow {...checkIn[0]} />
-                    }
-                    {
-                      checkIn[1].date &&
-                        <CheckInRow {...checkIn[1]} />
-                    }
-                  </Table.Body>
-                </Table>
-            }
             {
               storeCoord &&
                 <Marker
@@ -187,7 +172,7 @@ const Employee = () => {
             }
             <Circle
               center={storeCoord}
-              radius={distanceTolerance}
+              radius={MAP_RADIUS}
             />
           </LeafletMap>
           {
@@ -209,7 +194,7 @@ const Employee = () => {
             totalPay &&
               <div className='l-d-f l-jc-cen'>
                 <Statistic>
-                  <Statistic.Value>{totalPay}</Statistic.Value>
+                  <Statistic.Value>{totalPay.toFixed(2)}</Statistic.Value>
                   <Statistic.Label>Month Payout</Statistic.Label>
                 </Statistic>
                 <br />
@@ -220,6 +205,7 @@ const Employee = () => {
               <br />
           }
           <FinalForm
+            checkIn={checkIn}
             onSubmit={onSubmit}
             component={AttendanceForm}
           />

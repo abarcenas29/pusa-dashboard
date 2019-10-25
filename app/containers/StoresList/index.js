@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
   Button,
+  Header,
   Container,
   Grid,
-  Input,
   List,
   Segment
 } from 'semantic-ui-react'
@@ -50,7 +50,9 @@ const OrganizationList = ({ history }) => {
         <Grid textAlign='left'>
           <Grid.Row columns={2}>
             <Grid.Column textAlign='left'>
-              <Input fluid icon='search' placeholder='Search Organization' />
+              <Header as='h2'>
+                Store List
+              </Header>
             </Grid.Column>
             <Grid.Column textAlign='right'>
               <Button

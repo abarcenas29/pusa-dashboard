@@ -4,6 +4,7 @@ import { Marker, Circle } from 'react-leaflet'
 import dayjs from 'dayjs'
 import L from 'leaflet'
 
+import { MAP_RADIUS } from 'App/constants'
 import LeafletMap from 'Components/LeafletMap'
 
 const EmployeeDetailModal = ({
@@ -50,7 +51,7 @@ const EmployeeDetailModal = ({
           >
             <Circle
               center={mapPosition}
-              radius={100}
+              radius={MAP_RADIUS}
             />
             {
               time_in_loc &&
@@ -74,21 +75,21 @@ const EmployeeDetailModal = ({
             </Grid.Row>
             <Grid.Row>
               <Grid.Column textAlign='center'>
-                <Statistic size='mini' color={(locTimeIn > 300) ? 'red' : null}>
+                <Statistic size='mini' color={(locTimeIn > MAP_RADIUS) ? 'red' : null}>
                   <Statistic.Value>
                     {
                       dayjs(time_in).format('MMM DD, YYYY h:mm a')
                     }
                   </Statistic.Value>
                   {
-                    locTimeIn > 300 &&
+                    locTimeIn > MAP_RADIUS &&
                       <Statistic.Label>Loggined in far-away</Statistic.Label>
                   }
                   <Statistic.Label>Time-In</Statistic.Label>
                 </Statistic>
               </Grid.Column>
               <Grid.Column textAlign='center'>
-                <Statistic size='mini' color={locTimeOut > 300 ? 'red' : null}>
+                <Statistic size='mini' color={locTimeOut > MAP_RADIUS ? 'red' : null}>
                   <Statistic.Value>
                     {
                       time_out &&
@@ -99,7 +100,7 @@ const EmployeeDetailModal = ({
                     }
                   </Statistic.Value>
                   {
-                    locTimeIn > 300 && locTimeOut &&
+                    locTimeIn > MAP_RADIUS && locTimeOut &&
                       <Statistic.Label>Loggined in far-away</Statistic.Label>
                   }
                   <Statistic.Label>Time-Out</Statistic.Label>

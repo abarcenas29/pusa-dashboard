@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { isLoadingSelector } from './../selectors'
 import WebCamModal from './WebCamModal'
 
-const AttendanceForm = ({ handleSubmit, form }) => {
+const AttendanceForm = ({ handleSubmit, form, checkIn }) => {
   const { action } = form.getState().values
   const [showWebcamModal, setShowWebcamModal] = useState(false)
   const { isLoading } = useSelector(
@@ -28,6 +28,7 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             compact
             fluid
             primary
+            disabled={(checkIn[1])}
             onClick={() => {
               form.change('action', 'time-in')
               setShowWebcamModal(true)
@@ -43,6 +44,7 @@ const AttendanceForm = ({ handleSubmit, form }) => {
             fluid
             primary
             negative
+            disabled={!(checkIn[1])}
             onClick={() => {
               form.change('action', 'time-out')
               setShowWebcamModal(true)

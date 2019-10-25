@@ -11,6 +11,7 @@ import {
   Table
 } from 'semantic-ui-react'
 
+import { MAP_RADIUS } from 'App/constants'
 import EmployeeDetailModal from 'Components/EmployeeDetailModal'
 import { useMountReducer } from 'Helpers/hooks'
 import { STORE_INFO_REQUEST_ACTION } from 'RootContainers/Dashboard/reducers'
@@ -92,7 +93,7 @@ const Logs = ({ id }) => {
                     return (
                       <Table.Row
                         key={i}
-                        negative={locTimeIn > 300 || locTimeOut > 300}
+                        negative={locTimeIn > MAP_RADIUS || locTimeOut > MAP_RADIUS}
                       >
                         <Table.Cell>
                           {dayjs(r.shift_start).format('MMM DD, YYYY h:mm a')}
@@ -148,7 +149,7 @@ const Logs = ({ id }) => {
                         </Table.Cell>
                         <Table.Cell>
                           <Button
-                            negative={(locTimeIn > 300) || (locTimeOut > 300)}
+                            negative={(locTimeIn > MAP_RADIUS) || (locTimeOut > MAP_RADIUS)}
                             onClick={() => {
                               setShowEmpDetailmodal(true)
                               setSelectedRow(r)

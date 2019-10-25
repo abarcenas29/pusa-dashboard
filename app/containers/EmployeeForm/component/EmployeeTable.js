@@ -6,6 +6,8 @@ import {
   Button
 } from 'semantic-ui-react'
 
+import { MAP_RADIUS } from 'App/constants'
+
 import Context from './../context'
 
 const EmployeTable = ({ logs, loc }) => {
@@ -50,7 +52,7 @@ const EmployeTable = ({ logs, loc }) => {
             return (
               <Table.Row
                 key={i}
-                negative={locTimeIn > 300 || locTimeOut > 300}
+                negative={locTimeIn > MAP_RADIUS || locTimeOut > MAP_RADIUS}
               >
                 <Table.Cell>
                   {dayjs(r.shift_start).format('MMM DD, YYYY h:mm a')}
@@ -106,7 +108,7 @@ const EmployeTable = ({ logs, loc }) => {
                 </Table.Cell>
                 <Table.Cell>
                   <Button
-                    negative={(locTimeIn > 300) || (locTimeOut > 300)}
+                    negative={(locTimeIn > MAP_RADIUS) || (locTimeOut > MAP_RADIUS)}
                     onClick={() => {
                       setShoeEmployeeModal(true)
                       setRowIndex(r)
