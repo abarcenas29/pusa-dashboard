@@ -47,7 +47,7 @@ if ('serviceWorker' in navigator) {
   if (buildType === 'production' || buildType === 'staging') {
     // eslint-disable-next-line
     console.log('service worker activated')
-    navigator.serviceWorker.register('./sw.js')
+    // navigator.serviceWorker.register('./sw.js')
   } else {
     // eslint-disable-next-line
     console.log('removing service worker')
