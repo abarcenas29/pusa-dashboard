@@ -10,7 +10,7 @@ import { MAP_RADIUS } from 'App/constants'
 
 import Context from './../context'
 
-const EmployeTable = ({ logs, loc }) => {
+const EmployeTable = ({ logs, loc, id }) => {
   const { setShoeEmployeeModal, setRowIndex } = useContext(Context)
   let total = 0
   if (logs.length > 0) {
@@ -124,8 +124,23 @@ const EmployeTable = ({ logs, loc }) => {
 
       <Table.Footer>
         <Table.Row textAlign='right'>
-          <Table.HeaderCell colSpan='1' style={{ textAlign: 'left' }}>
-            Total: {total.toFixed(2)}
+          <Table.HeaderCell
+            colSpan='9'
+            className='l-w-100'
+            style={{ textAlign: 'left' }}
+          >
+            <div className='l-d-f l-jc-sb l-ai-cen'>
+              <div>
+                Total: {total.toFixed(2)}
+              </div>
+              <Button
+                as='a'
+                href={`/print/logs/${id}`}
+                target='_new'
+                icon='print'
+                content='Print Logs'
+              />
+            </div>
           </Table.HeaderCell>
         </Table.Row>
       </Table.Footer>
