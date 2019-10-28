@@ -62,6 +62,7 @@ const EmployeeDetail = ({ match }) => {
               {
                 form && storeInfo &&
                   <EmployeeTable
+                    id={id}
                     loc={{
                       lat: storeInfo.lat,
                       lng: storeInfo.long

@@ -1,16 +1,34 @@
 import React from 'react'
-import { Field } from 'react-final-form'
+import { Field, FormSpy } from 'react-final-form'
 import { Form } from 'semantic-ui-react'
+
+import { required, email } from 'App/validations'
+import { multiValidators } from 'Helpers/validators'
+import FieldError from 'Components/FieldError'
 
 const role = localStorage.getItem('role')
 const options = [
   { text: 'Admin', value: 'admin' },
-  { text: 'Owner', value: 'owner' }
+  { text: 'Owner', value: 'owner' },
+  { text: 'Employee', value: 'employee', disabled: (role !== 'owner') }
 ]
 
 if (role !== 'admin') {
   options.push(
     { text: 'Employee', value: 'employee' })
+}
+
+const normalizePhone = value => {
+  if (!value) return value
+  const onlyNums = value.replace(/[^\d]/g, '')
+  if (onlyNums.length <= 4) return onlyNums
+  if (onlyNums.length <= 7) {
+    return `(${onlyNums.slice(0, 4)}) ${onlyNums.slice(4, 8)}`
+  }
+  return `(${onlyNums.slice(0, 4)}) ${onlyNums.slice(4, 7)}-${onlyNums.slice(
+    7,
+    11
+  )}`
 }
 
 const UserForm = ({ handleSubmit, form }) => {
@@ -27,9 +45,11 @@ const UserForm = ({ handleSubmit, form }) => {
           <label>First Name</label>
           <Field
             component='input'
-            placeholder='First Name'
             name='first_name'
+            placeholder='First Name'
+            validate={required}
           />
+          <FieldError name='first_name' />
         </Form.Field>
         <Form.Field>
           <label>Last Name</label>
@@ -37,7 +57,9 @@ const UserForm = ({ handleSubmit, form }) => {
             component='input'
             placeholder='Last Name'
             name='last_name'
+            validate={required}
           />
+          <FieldError name='last_name' />
         </Form.Field>
         <Form.Field>
           <label>Middle Name</label>
@@ -46,6 +68,7 @@ const UserForm = ({ handleSubmit, form }) => {
             placeholder='Middle Name'
             name='middle_name'
           />
+          <FieldError name='middle_name' />
         </Form.Field>
       </Form.Group>
       <Form.Group widths='equal'>
@@ -55,7 +78,9 @@ const UserForm = ({ handleSubmit, form }) => {
             component='input'
             placeholder='Address'
             name='address'
+            validate={required}
           />
+          <FieldError name='address' />
         </Form.Field>
         <Form.Field>
           <label>Mobile No</label>
@@ -63,7 +88,10 @@ const UserForm = ({ handleSubmit, form }) => {
             component='input'
             placeholder='Mobile Number'
             name='contact_no'
+            validate={required}
+            parse={normalizePhone}
           />
+          <FieldError name='contact_no' />
         </Form.Field>
         <Form.Field>
           <label>Email</label>
@@ -71,7 +99,9 @@ const UserForm = ({ handleSubmit, form }) => {
             component='input'
             placeholder='Email'
             name='email'
+            validate={multiValidators(required, email)}
           />
+          <FieldError name='email' />
         </Form.Field>
       </Form.Group>
       <Form.Group widths='equal'>
@@ -81,7 +111,9 @@ const UserForm = ({ handleSubmit, form }) => {
             component='input'
             placeholder='Password'
             name='password'
+            validate={required}
           />
+          <FieldError name='password' />
         </Form.Field>
       </Form.Group>
       {
@@ -92,14 +124,18 @@ const UserForm = ({ handleSubmit, form }) => {
               <Field
                 component='input'
                 name='employees.shift_start'
+                validate={required}
               />
+              <FieldError name='employees.shift_start' />
             </Form.Field>
             <Form.Field>
               <label>Shift End</label>
               <Field
                 component='input'
                 name='employees.shift_end'
+                validate={required}
               />
+              <FieldError name='employees.shift_end' />
             </Form.Field>
           </Form.Group>
       }
@@ -138,9 +174,20 @@ const UserForm = ({ handleSubmit, form }) => {
         }
       </Form.Group>
       <div className='l-d-f l-jc-sb'>
-        <Form.Button type='Submit' size='big' primary>
-          Submit
-        </Form.Button>
+        <FormSpy subscription={{ pristine: true, invalid: true }}>
+          {
+            ({ pristine, invalid }) => (
+              <Form.Button
+                type='Submit'
+                size='big'
+                primary
+                disabled={pristine || invalid}
+              >
+                Submit
+              </Form.Button>
+            )
+          }
+        </FormSpy>
       </div>
     </Form>
   )

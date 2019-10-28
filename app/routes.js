@@ -10,6 +10,8 @@ const LoadAbout = lazy(() => import('Containers/About' /* webpackChunkName: "Con
 
 const LoadDashboard = lazy(() => import('RootContainers/Dashboard' /* webpackChunkName: "RootContainers-SampleRoot" */))
 
+const LoadPrintEmployeeLogs = lazy(() => import('Containers/PrintEmployeeLogs' /* webpackChunkName Containers-PrintEmployeeLogs */))
+
 const routes = [
   {
     path: '/',
@@ -44,6 +46,11 @@ const routes = [
     routes: [
       ...Employees
     ]
+  },
+  {
+    path: '/print/logs/:id',
+    component: LoadPrintEmployeeLogs,
+    exact: true
   },
   {
     path: '/payroll',

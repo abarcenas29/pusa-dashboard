@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import L from 'leaflet'
 import dayjs from 'dayjs'
 import LeafletMap from 'Components/LeafletMap'
+import { toast } from 'react-toastify'
 
 import { MAP_RADIUS } from 'App/constants'
 import {
@@ -83,7 +84,15 @@ const Employee = () => {
               }
               break
           }
-          dispatch(SUBMIT_CHECK_IN_REQUEST_ACTION(newValues))
+          const distance = L
+            .latLng({ lat: storeCoord[0], lng: storeCoord[1] })
+            .distanceTo({ lat: latitude, lng: longitude })
+
+          if (distance <= MAP_RADIUS) {
+            dispatch(SUBMIT_CHECK_IN_REQUEST_ACTION(newValues))
+          } else {
+            toast.error('You are logging outside of the store')
+          }
         }, e => {
           console.log(e)
         }, { timeout: 5000 })

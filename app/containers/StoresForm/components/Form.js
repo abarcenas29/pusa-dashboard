@@ -1,14 +1,30 @@
 import React, { useEffect, useContext } from 'react'
 import { Button, Form } from 'semantic-ui-react'
-import { Field } from 'react-final-form'
+import { Field, FormSpy } from 'react-final-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+
+import { required } from 'App/validations'
+import FieldError from 'Components/FieldError'
 
 import { Context } from './../index'
 import {
   LIST_USERS_REQUEST_ACTION
 } from './../reducers'
 import { userOptionsSelector } from './../selectors'
+
+const normalizePhone = value => {
+  if (!value) return value
+  const onlyNums = value.replace(/[^\d]/g, '')
+  if (onlyNums.length <= 4) return onlyNums
+  if (onlyNums.length <= 7) {
+    return `(${onlyNums.slice(0, 4)}) ${onlyNums.slice(4, 8)}`
+  }
+  return `(${onlyNums.slice(0, 4)}) ${onlyNums.slice(4, 7)}-${onlyNums.slice(
+    7,
+    11
+  )}`
+}
 
 const StoreForm = ({ handleSubmit, form }) => {
   const storeId = localStorage.getItem('store')
@@ -43,7 +59,9 @@ const StoreForm = ({ handleSubmit, form }) => {
           component='input'
           placeholder='Name'
           name='name'
+          validate={required}
         />
+        <FieldError name='name' />
       </Form.Field>
       <Form.Field>
         <label>Address</label>
@@ -51,7 +69,9 @@ const StoreForm = ({ handleSubmit, form }) => {
           component='input'
           placeholder='Address'
           name='address'
+          validate={required}
         />
+        <FieldError name='address' />
       </Form.Field>
       <Form.Field>
         <label>Contact No</label>
@@ -59,28 +79,16 @@ const StoreForm = ({ handleSubmit, form }) => {
           component='input'
           placeholder='Contact number'
           name='tel'
+          validate={required}
+          parse={normalizePhone}
         />
+        <FieldError name='tel' />
       </Form.Field>
       <Form.Field label='GPS' />
       <Form.Group widths='equal'>
         <Form.Field>
           <Field
-            name='long'
-          >
-            {
-              ({ input }) => {
-                return (
-                  <input
-                    {...input}
-                    placeholder='longtitude'
-                  />
-                )
-              }
-            }
-          </Field>
-        </Form.Field>
-        <Form.Field>
-          <Field
+            validate={required}
             name='lat'
           >
             {
@@ -94,6 +102,25 @@ const StoreForm = ({ handleSubmit, form }) => {
               }
             }
           </Field>
+          <FieldError name='lat' />
+        </Form.Field>
+        <Form.Field>
+          <Field
+            validate={required}
+            name='long'
+          >
+            {
+              ({ input }) => {
+                return (
+                  <input
+                    {...input}
+                    placeholder='longitude'
+                  />
+                )
+              }
+            }
+          </Field>
+          <FieldError name='long' />
         </Form.Field>
         <Form.Field
           className='l-d-f l-jc-fe'
@@ -108,7 +135,7 @@ const StoreForm = ({ handleSubmit, form }) => {
       </Form.Group>
       <Form.Field>
         <label>Owner</label>
-        <Field name='userUid'>
+        <Field name='userUid' validate={required}>
           {
             ({ input, ...props }) => {
               const { onChange, value, ...restInput } = input
@@ -126,14 +153,23 @@ const StoreForm = ({ handleSubmit, form }) => {
             }
           }
         </Field>
+        <FieldError name='userUid' />
       </Form.Field>
       <div className='l-d-f l-jc-sb'>
-        <Form.Button type='button' size='big' negative>
-          Delete
-        </Form.Button>
-        <Form.Button type='Submit' size='big' primary>
-          Submit
-        </Form.Button>
+        <FormSpy subscription={{ pristine: true, invalid: true }}>
+          {
+            ({ pristine, invalid }) => (
+              <Form.Button
+                type='Submit'
+                size='big'
+                primary
+                disabled={pristine || invalid}
+              >
+                Submit
+              </Form.Button>
+            )
+          }
+        </FormSpy>
       </div>
     </Form>
   )
