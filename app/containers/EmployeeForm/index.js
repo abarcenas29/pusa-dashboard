@@ -20,7 +20,7 @@ import EmployeeTable from './component/EmployeeTable'
 import Context from './context'
 import { employeeFormSelectors } from './selectors'
 
-const EmployeeDetail = ({ match }) => {
+const EmployeeDetail = ({ match, history }) => {
   useMountReducer('containerEmployeeForm', reducer)
   const { params: { id } } = match
   const storeId = localStorage.getItem('store')
@@ -67,6 +67,7 @@ const EmployeeDetail = ({ match }) => {
                       lat: storeInfo.lat,
                       lng: storeInfo.long
                     }}
+                    history={history}
                     logs={form.employees[0].times}
                   />
               }

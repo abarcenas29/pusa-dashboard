@@ -10,7 +10,7 @@ import { MAP_RADIUS } from 'App/constants'
 
 import Context from './../context'
 
-const EmployeTable = ({ logs, loc, id }) => {
+const EmployeTable = ({ logs, loc, id, history }) => {
   const { setShoeEmployeeModal, setRowIndex } = useContext(Context)
   let total = 0
   if (logs.length > 0) {
@@ -134,9 +134,7 @@ const EmployeTable = ({ logs, loc, id }) => {
                 Total: {total.toFixed(2)}
               </div>
               <Button
-                as='a'
-                href={`/print/logs/${id}`}
-                target='_new'
+                onClick={() => history.push(`/print/logs/${id}`)}
                 icon='print'
                 content='Print Logs'
               />

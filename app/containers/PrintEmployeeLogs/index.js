@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
+import { Link } from 'react-router-dom'
 import { Header, Table } from 'semantic-ui-react'
 import L from 'leaflet'
 import dayjs from 'dayjs'
@@ -60,6 +61,9 @@ const PrintEmployeeLogs = ({ match }) => {
 
   return (
     <div className='l-d-b'>
+      <div className='hide-on-print'>
+        <Link to={`/employees/detail/${id}`}>Go Back</Link>
+      </div>
       <Header as='h1' className='f-center'>
         Attendance Logs For The Month of {`${dayjs().format('MMMM')}`}
       </Header>
