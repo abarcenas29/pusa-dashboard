@@ -42,23 +42,11 @@ if (env === 'development') {
   ReactDOM.render(<App />, $app)
 }
 
+// Enable Service Worker
 if ('serviceWorker' in navigator) {
-  const buildType = process.env.NODE_ENV
-  if (buildType === 'production' || buildType === 'staging') {
-    // eslint-disable-next-line
-    console.log('service worker activated')
-    // navigator.serviceWorker.register('./sw.js')
-  } else {
-    // eslint-disable-next-line
-    console.log('removing service worker')
-    navigator
-      .serviceWorker
-      .getRegistrations()
-      .then(function (registrations) {
-        // eslint-disable-next-line
-        for (const registration of registrations) {
-          registration.unregister()
-        }
-      })
-  }
+  navigator
+    .serviceWorker
+    .register('sw.js')
+    .then(registration => console.log(registration))
+    .catch(console.error)
 }

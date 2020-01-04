@@ -7,8 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoPrefixer = require('autoprefixer')
 const cssnano = require('cssnano')
-const Workbox = require('workbox-webpack-plugin')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = (env, options) => {
   const isDevMode = options.mode === 'development'
@@ -41,6 +41,7 @@ module.exports = (env, options) => {
       }
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: path.resolve(srcFolder, 'index.html')
       }),
@@ -50,6 +51,7 @@ module.exports = (env, options) => {
       }),
       new CopyWebpackPlugin([
         path.resolve('app', 'manifest.json'),
+        path.resolve('app', 'site.webmanifest'),
         {
           from: path.resolve('app', 'assets'),
           to: 'assets'
@@ -59,6 +61,10 @@ module.exports = (env, options) => {
           to: 'images'
         }
       ]),
+      new WorkboxWebpackPlugin.InjectManifest({
+        swSrc: './app/sw-src.js',
+        swDest: 'sw.js'
+      }),
       new DotenvWebpack()
     ],
     devServer: {
@@ -124,58 +130,6 @@ module.exports = (env, options) => {
       ]
     }
   }
-
-  if (isDevMode) {
-    config.plugins.push(new Workbox.GenerateSW({
-      clientsClaim: true,
-      importWorkboxFrom: 'cdn',
-      exclude: [/\.(?:png|jpg|jpeg|svg)$/],
-      skipWaiting: true,
-      swDest: 'sw.js',
-      navigateFallback: '/index.html',
-      runtimeCaching: [
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-          handler: 'cacheFirst',
-          options: {
-            cacheName: 'images'
-          }
-        },
-        {
-          urlPattern: /\.(?:js|css)$/,
-          handler: 'staleWhileRevalidate',
-          options: {
-            cacheName: 'pusa',
-            expiration: {
-              maxEntries: 5,
-              maxAgeSeconds: 60
-            }
-          }
-        },
-        {
-          urlPattern: `${process.env.API_URL}/*`,
-          handler: 'staleWhileRevalidate',
-          options: {
-            cacheName: 'pusa',
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 300
-            },
-            cacheableResponse: { statuses: [0, 200] }
-          }
-        }
-      ]
-    }))
-  }
-
-  /*
-  uncomment this if you want to analyze the build sizes of your build file
-  if (!isDevMode) {
-    config.plugins.push(
-      new BundleAnalyzerPlugin()
-    )
-  }
-  */
 
   return config
 }
